@@ -17,7 +17,7 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 .src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
 .path{font-size:.85rem;color:var(--muted)}
 </style></head><body><header><div><a href="../index.html">首頁</a><a href="../slides/index.html">教學簡報</a><a href="../wiki/index.html">Wiki 索引</a><a href="../docs/process.html">流程與反思</a><a href="../CLAUDE.html">規則檔</a><a href="../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">slides/outline.md　<a href="outline.md">看 Markdown 原檔</a></p><h1>簡報大綱（N5 query 產物：只讀 wiki/ 產生）</h1>
-<p>觀眾：有一點程式基礎的初學者。教學結構：引起動機 → 定義 → 構造 → 運作 → 設計 → 判斷 → 風險 → 檢核 → 總結。</p>
+<p>觀眾：有一點程式基礎的初學者。教學結構：引起動機 → 定義 → 構造 → 運作 → 選擇 → 設計 → 風險 → 檢核 → 總結。（第二輪：依簡報檢視意見，把「何時該用」移到設計模式之前；術語第一次出現要附白話。）</p>
 <table>
 <thead>
 <tr>
@@ -60,14 +60,14 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <tr>
 <td>5</td>
 <td>構造</td>
-<td>大腦＋規劃、記憶、工具</td>
-<td>說出 agent 的組成元件</td>
-<td>concepts/agent-components.md</td>
+<td>大腦＋規劃、記憶、工具、規範</td>
+<td>說出 agent 的組成元件（只用一套說法）</td>
+<td>concepts/agent-components.md, concepts/glossary.md</td>
 </tr>
 <tr>
 <td>6</td>
 <td>構造</td>
-<td>工具三類與 Instructions</td>
+<td>工具分成三類</td>
 <td>分辨資料／行動／協調類工具</td>
 <td>concepts/agent-components.md</td>
 </tr>
@@ -94,38 +94,38 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 </tr>
 <tr>
 <td>10</td>
-<td>設計</td>
+<td>選擇</td>
 <td>Workflow vs Agent</td>
 <td>分辨兩者，舉衝浪例子</td>
 <td>concepts/workflow-vs-agent.md</td>
 </tr>
 <tr>
 <td>11</td>
-<td>設計</td>
-<td>五種設計模式</td>
-<td>認得五種模式</td>
-<td>concepts/design-patterns.md</td>
+<td>選擇</td>
+<td>何時該用 agent？</td>
+<td>用三個訊號判斷</td>
+<td>concepts/when-to-use-agents.md</td>
 </tr>
 <tr>
 <td>12</td>
+<td>設計</td>
+<td>五種設計模式（都是 workflow）</td>
+<td>認得五種模式與中文名稱</td>
+<td>concepts/design-patterns.md</td>
+</tr>
+<tr>
+<td>13</td>
 <td>設計</td>
 <td>多代理：Manager 與 Handoff</td>
 <td>知道何時拆成多 agent</td>
 <td>concepts/design-patterns.md</td>
 </tr>
 <tr>
-<td>13</td>
-<td>判斷</td>
-<td>何時該用 agent？</td>
-<td>用三個訊號判斷</td>
-<td>concepts/when-to-use-agents.md</td>
-</tr>
-<tr>
 <td>14</td>
 <td>風險</td>
 <td>護欄與人工介入</td>
 <td>列出常見護欄與介入時機</td>
-<td>concepts/guardrails-and-human.md</td>
+<td>concepts/guardrails-and-human.md, concepts/glossary.md</td>
 </tr>
 <tr>
 <td>15</td>
@@ -152,6 +152,6 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 </table>
 <h2>覆蓋檢查要求（N6）</h2>
 <ul>
-<li>9 個概念頁每頁至少被 1 張投影片使用。</li>
+<li>10 個概念頁（含術語小辭典）每頁至少被 1 張投影片使用。</li>
 <li>每張投影片只能用它對應的 wiki 頁內容；需要 wiki 沒有的內容 → 記為「缺口」，回 N3 補 wiki。</li>
 </ul></main></body></html>

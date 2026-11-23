@@ -36,6 +36,8 @@ pre{font-size:1.08em;line-height:1.6;background:var(--card);border-left:.3em sol
 .lead{font-size:1.6em;color:var(--muted);max-width:30em;margin-top:.8em}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:3em;align-items:start}
 .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:2em}
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4em}
+.bi{border-top-color:var(--ink)}
 .box{background:var(--card);padding:1.2em 1.4em;border-top:.28em solid var(--line)}
 .box p,.box li{font-size:1.18em}
 .t{color:var(--think)} .a{color:var(--act)} .o{color:var(--obs)}
@@ -47,6 +49,7 @@ table{border-collapse:collapse;font-size:1.15em;width:100%}
 th,td{text-align:left;padding:.45em .8em;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-weight:500;color:var(--muted)}
 td code{font-size:.9em}
+.zh{color:var(--muted);white-space:nowrap}
 .stars{font-family:var(--mono);color:var(--act);white-space:nowrap}
 /* 標題頁的迴圈 */
 .ring{display:flex;gap:1.2em;align-items:center;margin-top:2.4em;font-family:var(--head);font-size:2em}
@@ -82,6 +85,7 @@ footer a{color:var(--muted)}
 .nav button{font-size:.95em;padding:.25em .8em}
 @media (prefers-reduced-motion:reduce){.bar{transition:none}}
 @media (max-aspect-ratio:1/1){
+  .cols4{grid-template-columns:1fr 1fr}
   body{overflow:auto;align-items:flex-start}
   .stage{width:100vw;aspect-ratio:auto;min-height:100vh;font-size:2.6vw}
   .slide{position:relative;padding:3em 1.6em 6em}
@@ -97,7 +101,7 @@ footer a{color:var(--muted)}
 <!-- 1 -->
 <section class="slide" data-wiki="overview.md">
   <h1>AI Agents 是什麼？</h1>
-  <p class="lead">讓 LLM 不只回答問題，而是自己決定下一步、用工具去做、看結果再決定。</p>
+  <p class="lead">讓 LLM（大型語言模型：輸入文字、輸出文字的 AI 模型）不只回答問題，而是自己決定下一步、用工具去做、看結果再決定。</p>
   <div class="ring" aria-label="Agent 迴圈：Thought、Action、Observation">
     <span class="t">Thought 想</span><i>→</i><span class="a">Action 做</span><i>→</i><span class="o">Observation 看</span><i>↺</i>
   </div>
@@ -115,12 +119,12 @@ footer a{color:var(--muted)}
         <li>說出 agent 的組成元件</li>
         <li>看懂 Thought → Action → Observation 迴圈的程式</li>
         <li>判斷一個任務該用 workflow 還是 agent</li>
-        <li>說出 agent 的風險與護欄</li>
+        <li>說出 agent 的風險，以及怎麼加上護欄（多層防護規則）</li>
       </ul>
     </div>
     <div class="box bt">
       <h3>路線</h3>
-      <p>比喻 → 定義 → 構造 → 運作 → 設計 → 判斷 → 風險 → 小測驗 → 回顧</p>
+      <p>比喻 → 定義 → 構造 → 運作 → 選擇（workflow 還是 agent）→ 設計模式 → 風險 → 小測驗 → 回顧</p>
       <p class="note">觀眾設定：有一點程式基礎。</p>
     </div>
   </div>
@@ -163,27 +167,28 @@ footer a{color:var(--muted)}
 </section>
 
 <!-- 5 -->
-<section class="slide" data-wiki="concepts/agent-components.md">
-  <h2>大腦，加上三大元件</h2>
+<section class="slide" data-wiki="concepts/agent-components.md,concepts/glossary.md">
+  <h2>大腦，加上四樣配備</h2>
   <p>LLM 是 agent 的大腦。但只有大腦不夠，還需要：</p>
-  <div class="cols3" style="margin-top:1em">
-    <div class="box bt"><h3 class="t">規劃</h3><p>把大任務拆成子目標（例如 Chain of Thought：一步一步想），並反思、修正做過的事。</p></div>
-    <div class="box bo"><h3 class="o">記憶</h3><p><strong>短期：</strong>放在 context window 裡的內容，有長度限制。<br><strong>長期：</strong>外部向量資料庫，需要時再檢索。</p></div>
-    <div class="box ba"><h3 class="a">工具使用</h3><p>LLM 只能產生文字。要查資料、寄信、生圖，都得透過工具（API、函式）。</p></div>
+  <div class="cols4" style="margin-top:1em">
+    <div class="box bt"><h3 class="t">規劃</h3><p>把大任務拆成小步驟，一步一步想；做完再檢查、修正。</p></div>
+    <div class="box bo"><h3 class="o">記憶</h3><p><strong>短期：</strong>context window（AI 當下能同時讀進的內容量，有上限）。<br><strong>長期：</strong>向量資料庫（外接的筆記本，需要時再查）。</p></div>
+    <div class="box ba"><h3 class="a">工具</h3><p>LLM 只能產生文字。要寄信、生圖，都得透過外部的功能。</p></div>
+    <div class="box bi"><h3>規範</h3><p>Instructions：告訴 agent 該怎麼做、哪些不能做的準則。</p></div>
   </div>
-  <p style="margin-top:1.2em">注意：「何時用、怎麼用工具」本身就是能力，LLM 不一定抽得出正確的參數。</p>
+  <p style="margin-top:1.2em">注意：LLM 不一定會正確使用工具，例如給錯輸入值。</p>
 </section>
 
 <!-- 6 -->
 <section class="slide" data-wiki="concepts/agent-components.md">
-  <h2>工具分三類，再加上指令</h2>
+  <h2>工具分成三類</h2>
   <table>
     <tr><th>類型</th><th>用途</th><th>例子</th></tr>
-    <tr><td class="o"><strong>資料類</strong></td><td>取得完成任務需要的資訊</td><td>查資料庫、讀 PDF、搜尋網路</td></tr>
-    <tr><td class="a"><strong>行動類</strong></td><td>改變外部系統</td><td>寄信、更新紀錄、轉交真人</td></tr>
-    <tr><td class="t"><strong>協調類</strong></td><td>把其他 agent 當工具</td><td>退款 agent、研究 agent</td></tr>
+    <tr><td class="o"><strong>資料類</strong>（查資料）</td><td>取得完成任務需要的資訊</td><td>查資料庫、讀 PDF、搜尋網路</td></tr>
+    <tr><td class="a"><strong>行動類</strong>（做動作）</td><td>改變外部系統</td><td>寄信、更新紀錄、轉交真人</td></tr>
+    <tr><td class="t"><strong>協調類</strong>（請別人做）</td><td>把其他 agent 當工具使用</td><td>退款 agent、研究 agent</td></tr>
   </table>
-  <p style="margin-top:1.2em">OpenAI 把 agent 拆成 <strong>Model</strong>（推理）＋ <strong>Tools</strong>（行動）＋ <strong>Instructions</strong>（行為準則與護欄）。Anthropic 則稱最基本的積木為「增強版 LLM」：LLM ＋ 檢索 ＋ 工具 ＋ 記憶。兩種說法講的是同一件事。</p>
+  <p class="note">各家叫法不同：OpenAI 說 Model＋Tools＋Instructions，Anthropic 說「增強版 LLM」，指的都是上一張那一套。</p>
 </section>
 
 <!-- 7 -->
@@ -216,7 +221,7 @@ footer a{color:var(--muted)}
       <h3>效果</h3>
       <ul>
         <li>問答與事實查核：用簡單的 Wikipedia API 查資料，減少幻覺與錯誤累積。</li>
-        <li>ALFWorld／WebShop：成功率比模仿學習、強化學習方法絕對提升 <strong>34%</strong>／<strong>10%</strong>，只用一兩個範例提示。</li>
+        <li>兩個互動任務（文字遊戲、網頁操作）：只給一兩個示範，成功率就比需要另外訓練的方法高出 <strong>34%</strong>／<strong>10%</strong>。</li>
       </ul>
     </div>
   </div>
@@ -229,6 +234,7 @@ footer a{color:var(--muted)}
     <div>
 <pre id="code"><span data-l="0">memory = [user_defined_task]</span>
 <span data-l="1">while llm_should_continue(memory):</span>
+<span data-l="5">    # Thought：LLM 先推理，再決定 action</span>
 <span data-l="2">    action = llm_get_next_action(memory)</span>
 <span data-l="3">    observations = execute_action(action)</span>
 <span data-l="4">    memory += [action, observations]</span></pre>
@@ -237,7 +243,7 @@ footer a{color:var(--muted)}
     </div>
     <div class="mem" id="mem" aria-live="polite"><div class="k-u"><b>memory</b>（按「執行下一步」看它怎麼長大）</div></div>
   </div>
-  <p class="note" style="margin-top:1.2em">示意：沿用 Alfred 煮咖啡的例子，觀察結果是為了說明而編寫的。</p>
+  <p class="note" style="margin-top:1.2em">示意：程式出自 smolagents，註解是補充說明；沿用 Alfred 煮咖啡的例子，觀察結果是為了說明而編寫的。</p>
 </section>
 
 <!-- 10 -->
@@ -259,31 +265,6 @@ footer a{color:var(--muted)}
 </section>
 
 <!-- 11 -->
-<section class="slide" data-wiki="concepts/design-patterns.md">
-  <h2>五種設計模式，由簡到繁</h2>
-  <table>
-    <tr><th></th><th>模式</th><th>做法</th><th>例子</th></tr>
-    <tr><td>1</td><td><strong>Prompt chaining</strong></td><td>固定步驟串接，中間加檢查關卡</td><td>寫大綱 → 檢查 → 寫全文</td></tr>
-    <tr><td>2</td><td><strong>Routing</strong></td><td>先分類，再送到專門流程</td><td>客服分成一般、退款、技術</td></tr>
-    <tr><td>3</td><td><strong>Parallelization</strong></td><td>子任務同時跑，或同題多跑投票</td><td>多個 prompt 檢查程式漏洞</td></tr>
-    <tr><td>4</td><td><strong>Orchestrator-workers</strong></td><td>指揮者在執行時拆任務、分派、彙整</td><td>一次修改很多檔案</td></tr>
-    <tr><td>5</td><td><strong>Evaluator-optimizer</strong></td><td>一個產生、一個評估，反覆改進</td><td>文學翻譯、多輪搜尋</td></tr>
-  </table>
-  <p class="note">這份簡報本身就是用「chaining ＋ 檢查關卡」和「evaluator-optimizer」做出來的，詳見流程說明頁。</p>
-</section>
-
-<!-- 12 -->
-<section class="slide" data-wiki="concepts/design-patterns.md">
-  <h2>什麼時候拆成多個 agent？</h2>
-  <p>先把<strong>單一 agent</strong> 用到極限，多 agent 會增加複雜度。拆分的訊號是提示詞邏輯太複雜，或工具太多又彼此重疊。</p>
-  <div class="cols" style="margin-top:1em">
-    <div class="box bt"><h3>Manager 模式</h3><p>經理 agent 把專門 agent 當工具呼叫，自己負責跟使用者對話。</p><p><em>例：</em>翻譯經理呼叫西語、法語、義語 agent。</p></div>
-    <div class="box bo"><h3>Handoff 模式</h3><p>同儕 agent 之間轉交控制權。</p><p><em>例：</em>分診 agent 轉給技術支援、業務、訂單管理。</p></div>
-  </div>
-  <p class="note">工具數量沒有固定上限：有的系統能處理 15 個以上不同工具，有的在不到 10 個重疊工具時就出錯。</p>
-</section>
-
-<!-- 13 -->
 <section class="slide" data-wiki="concepts/when-to-use-agents.md">
   <h2>何時該用 agent？</h2>
   <div class="cols">
@@ -307,18 +288,44 @@ footer a{color:var(--muted)}
   <p style="margin-top:1.2em">比喻：規則引擎像核對清單，agent 像資深調查員，讀得出細微的脈絡。</p>
 </section>
 
+<!-- 12 -->
+<section class="slide" data-wiki="concepts/design-patterns.md">
+  <h2>五種設計模式，由簡到繁</h2>
+  <p style="margin:-.3em 0 .6em">這五種都屬於 <strong>workflow</strong>：流程由程式事先寫好。</p>
+  <table>
+    <tr><th></th><th>模式</th><th>做法</th><th>例子</th></tr>
+    <tr><td>1</td><td><strong>Prompt chaining</strong> <span class="zh">步驟串接</span></td><td>固定步驟串接，中間加檢查關卡</td><td>寫大綱 → 檢查 → 寫全文</td></tr>
+    <tr><td>2</td><td><strong>Routing</strong> <span class="zh">分流路由</span></td><td>先分類，再送到專門流程</td><td>客服分成一般、退款、技術</td></tr>
+    <tr><td>3</td><td><strong>Parallelization</strong> <span class="zh">平行處理</span></td><td>子任務同時跑，或同題多跑投票</td><td>多個 prompt 檢查程式漏洞</td></tr>
+    <tr><td>4</td><td><strong>Orchestrator-workers</strong> <span class="zh">指揮者與工人</span></td><td>指揮者在執行時拆任務、分派、彙整</td><td>一次修改很多檔案</td></tr>
+    <tr><td>5</td><td><strong>Evaluator-optimizer</strong> <span class="zh">評估者與優化者</span></td><td>一個產生、一個評估，反覆改進</td><td>文學翻譯、多輪搜尋</td></tr>
+  </table>
+  <p class="note">這份簡報本身就是用「chaining ＋ 檢查關卡」和「evaluator-optimizer」做出來的，詳見流程說明頁。</p>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-wiki="concepts/design-patterns.md">
+  <h2>什麼時候拆成多個 agent？</h2>
+  <p>先把<strong>單一 agent</strong> 用到極限，多 agent 會增加複雜度。拆分的訊號是提示詞邏輯太複雜，或工具太多又彼此重疊。</p>
+  <div class="cols" style="margin-top:1em">
+    <div class="box bt"><h3>Manager 模式</h3><p>經理 agent 把專門 agent 當工具呼叫，自己負責跟使用者對話。</p><p><em>例：</em>翻譯經理呼叫西語、法語、義語 agent。</p></div>
+    <div class="box bo"><h3>Handoff 模式</h3><p>同儕 agent 之間轉交控制權。</p><p><em>例：</em>分診 agent 轉給技術支援、業務、訂單管理。</p></div>
+  </div>
+  <p class="note">工具數量沒有固定上限：有的系統能處理 15 個以上不同工具，有的在不到 10 個重疊工具時就出錯。</p>
+</section>
+
 <!-- 14 -->
-<section class="slide" data-wiki="concepts/guardrails-and-human.md">
+<section class="slide" data-wiki="concepts/guardrails-and-human.md,concepts/glossary.md">
   <h2>護欄與人工介入</h2>
   <div class="cols">
     <div>
       <h3>多層護欄，一層擋不住還有下一層</h3>
       <ul>
         <li>相關性分類器：擋離題問題</li>
-        <li>安全分類器：偵測越獄、提示詞注入</li>
+        <li>安全分類器：偵測越獄（用話術誘導 AI 違規）、提示詞注入（把惡意指令藏在輸入裡）</li>
         <li>個資過濾、內容審核</li>
         <li>工具風險分級：看讀或寫、能否復原、金錢影響</li>
-        <li>規則式防護：黑名單、長度限制、正規表示式</li>
+        <li>規則式防護：黑名單、長度限制、格式比對</li>
       </ul>
     </div>
     <div class="box ba">
@@ -327,7 +334,7 @@ footer a{color:var(--muted)}
         <li><strong>超過失敗門檻</strong>：例如多次聽不懂顧客意圖</li>
         <li><strong>高風險動作</strong>：取消訂單、大額退款、付款</li>
       </ul>
-      <p>自主 agent 錯誤會累積，應先在沙盒中充分測試。</p>
+      <p>自主 agent 錯誤會累積，應先在沙盒（和真實系統隔離的測試環境）中充分測試。</p>
     </div>
   </div>
 </section>
@@ -344,9 +351,9 @@ footer a{color:var(--muted)}
     </ul>
     <div class="box bo">
       <h3>LLM 不一定能評估自己</h3>
-      <p>ChemCrow 案例：LLM 評審認為它和 GPT-4 差不多，但化學專家明顯偏好 ChemCrow。</p>
-      <h3 style="margin-top:.8em">工具比提示詞更重要</h3>
-      <p>強制使用絕對路徑，就消除了 agent 切換目錄後的錯誤。</p>
+      <p>ChemCrow（加了 13 個化學專業工具的 agent）：LLM 評審認為它和 GPT-4 差不多，但化學專家明顯偏好 ChemCrow。</p>
+      <h3 style="margin-top:.8em">把工具設計得防呆（不容易用錯）</h3>
+      <p>要求工具一律給完整的檔案路徑、而不是相對位置，就消除了 agent 切換資料夾後走錯路的錯誤。</p>
     </div>
   </div>
 </section>
@@ -411,13 +418,13 @@ document.addEventListener('keydown',e=>{
 // 互動迴圈（示意）
 const steps=[
   {l:[0],k:'u',t:'任務：「我想喝咖啡」'},
-  {l:[1],k:'t',t:'Thought：要先知道廚房有沒有咖啡機'},
+  {l:[1,5],k:'t',t:'Thought：要先知道廚房有沒有咖啡機'},
   {l:[2],k:'a',t:'Action：走到廚房查看'},
   {l:[3,4],k:'o',t:'Observation：有咖啡機，咖啡豆也在'},
-  {l:[1],k:'t',t:'Thought：可以開始煮了'},
+  {l:[1,5],k:'t',t:'Thought：可以開始煮了'},
   {l:[2],k:'a',t:'Action：使用咖啡機'},
   {l:[3,4],k:'o',t:'Observation：咖啡煮好了'},
-  {l:[1],k:'t',t:'Thought：把咖啡端回去就完成'},
+  {l:[1,5],k:'t',t:'Thought：把咖啡端回去就完成'},
   {l:[2],k:'a',t:'Action：端給使用者（最終輸出）'},
   {l:[1],k:'done',t:'llm_should_continue → False，迴圈結束'}
 ];

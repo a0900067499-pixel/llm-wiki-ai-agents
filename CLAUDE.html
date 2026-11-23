@@ -32,7 +32,7 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <td>原始資料</td>
 <td><code>raw/</code></td>
 <td>人提供、LLM 擷取</td>
-<td>一篇一檔（S1–S6），<strong>ingest 後不再修改</strong></td>
+<td>一篇一檔（S1–S6），<strong>原有內容不再修改</strong>；回頭補查時只能在檔尾追加「補充擷取」並註明日期</td>
 </tr>
 <tr>
 <td>Wiki</td>
@@ -58,8 +58,9 @@ updated: 2026-11-23
 </code></pre>
 <ul>
 <li><strong>每一條事實（以 <code>-</code> 開頭的條列）結尾都要標來源</strong>，例如 <code><span class="src">[S5]</span></code>；若是跨來源整理寫 <code><span class="src">[綜合: S1,S2]</span></code>。</li>
+<li>例外：<code>concepts/glossary.md</code>（術語小辭典）可用 <code>[通用定義]</code> 標記一般性的名詞解釋（例如「沙盒」），但不得寫數字或主張；其他頁面不可使用。</li>
 <li>頁面之間用相對連結互連，例如 <code>[代理程度光譜](agency-spectrum.md)</code>。</li>
-<li>來源之間有矛盾時，<strong>不可自行挑一個寫</strong>：放進頁面的「⚠ 矛盾與註記」小節，並在 <code>log.md</code> 記錄怎麼處理（需經使用者確認）。</li>
+<li>來源之間有矛盾時，<strong>不可自行挑一個寫</strong>：放進頁面的「⚠ 矛盾與註記」小節，並在 <code>log.md</code> 記錄怎麼處理（要經過討論決定，不可由 LLM 自行決定）。</li>
 <li>不寫來源中沒有的數字。數字一律要能在 <code>raw/</code> 找到。</li>
 </ul>
 <h2>操作</h2>
@@ -75,4 +76,5 @@ updated: 2026-11-23
 <li><strong>大綱要宣告所有用到的頁</strong>：投影片只要借用別頁的例子（例如在 loop 頁用 Alfred 的例子），大綱的「對應 Wiki 頁」欄就要列出那一頁。測驗選項也必須來自 wiki。</li>
 <li><strong>逐張生成、逐張檢查</strong>：每生成一張投影片就跑 <code>check_slides.py --only N</code>，不要整份寫完才檢查。</li>
 <li><strong>版面預算</strong>：每張投影片最多 1 段導語＋5 個條列或 3 個卡片；整份完成後跑 <code>check_visual.py</code>（V1 超出版面、V2 按鈕被蓋住）。</li>
+<li><strong>術語門檻</strong>：投影片第一次出現的術語，如果列在術語小辭典，就要在旁邊用括號加白話說明，或在該張宣告對應術語小辭典（check_slides.py C6）。</li>
 </ol></main></body></html>

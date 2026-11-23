@@ -8,6 +8,7 @@
   L4 概念頁都有被 index.md 連到（沒有孤兒頁）
   L5 條列中的數字都能在它標記的 raw 來源裡找到（防止捏造數字）
   L6 有「⚠ 矛盾」小節的頁面，log.md 必須有對應紀錄
+  L7 [通用定義] 只能用在 concepts/glossary.md（第二輪新增）
 用法：python3 pipeline/lint_wiki.py [報告輸出路徑]
 """
 import re, sys, pathlib
@@ -56,6 +57,10 @@ for page in pages:
         if re.match(r"^\s*- \[[^\]]*\]\([^)]*\.md\)(、\[[^\]]*\]\([^)]*\.md\))*\s*$", line):
             continue
         checked += 1
+        if line.rstrip().endswith("[通用定義]"):
+            if page.name != "glossary.md":
+                errors.append(f"L7 {rel}:{ln} [通用定義] 只能用在術語小辭典")
+            continue
         m = TAG.search(line)
         if not m:
             errors.append(f"L1 {rel}:{ln} 缺來源標記 → {line.strip()[:60]}")

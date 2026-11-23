@@ -39,7 +39,7 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 </tr>
 <tr>
 <td>N1 討論與確認</td>
-<td><strong>人</strong>（使用者）</td>
+<td><strong>人</strong>（我）</td>
 <td>重點、矛盾、結構 → 同意／修正</td>
 <td>不同意就回 N0 換資料</td>
 </tr>
@@ -83,7 +83,7 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <td>N8a 內容檢查</td>
 <td>程式 <code>check_slides.py --only N</code></td>
 <td>投影片 → 錯誤清單</td>
-<td>C1 對應頁存在、C2 與大綱一致、C3 數字、C4 術語、C5 示意標註</td>
+<td>C1 對應頁存在、C2 與大綱一致、C3 數字、C4 術語、C5 示意標註、C6 術語門檻（第二輪新增）</td>
 </tr>
 <tr>
 <td>N8b 視覺檢查</td>
@@ -105,11 +105,12 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <li><strong>N5 ⇄ N6</strong>：大綱沒通過就改大綱，不進入生成。</li>
 <li><strong>N7 ⇄ N8a</strong>：逐張生成、逐張檢查，沒過就只重生成那一張。</li>
 <li><strong>N8b → N7</strong>：整份完成後的版面問題，回去改版面。</li>
+<li><strong>檢視簡報 → N1</strong>（第二輪討論）：簡報初稿完成後，以「新手看不看得懂」再討論一次，結論回到 Wiki 與大綱。</li>
 <li><strong>N8a → N3</strong>（缺口迴圈）：投影片需要 wiki 沒有的內容時，<strong>不准直接寫進簡報</strong>，要先回 Wiki 補資料、重跑 lint。這樣「查詢的結果會累積回 Wiki」，也就是 LLM Wiki 和一般 RAG 的差別。</li>
 </ul>
 <h2>3. 哪些地方需要檢查或重新生成？為什麼這樣設計？</h2>
 <ul>
-<li><strong>來源矛盾 → 交給人（N4 → N1）</strong>：LLM 自己挑一個版本寫最危險，因為看起來很合理，卻沒人知道它挑過。所以矛盾一律寫進「⚠ 矛盾與註記」並問使用者。</li>
+<li><strong>來源矛盾 → 交給人（N4 → N1）</strong>：LLM 自己挑一個版本寫最危險，因為看起來很合理，卻沒人知道它挑過。所以矛盾一律寫進「⚠ 矛盾與註記」，由我討論後決定。</li>
 <li><strong>數字與術語 → 交給程式（L5、C3、C4）</strong>：捏造的數字、從外面混進來的名詞，LLM 自己檢查不可靠（Wiki 的 <a href="../wiki/concepts/challenges.html">挑戰頁</a> 提到「LLM 不一定能評估自己」）。所以這兩項用字串比對，機械地追到 raw。</li>
 <li><strong>對應關係 → 寫在資料裡</strong>：Wiki 每條事實有 <code>[Sx]</code>，簡報每張有 <code>data-wiki</code>，形成 <strong>raw → wiki → 簡報</strong> 一條可追溯的鏈，檢查才能自動化。</li>
 <li><strong>檢查器本身也要測</strong>：每個檢查器都先用「故意植入的錯誤」測過，確定抓得到才採信它的 0 錯誤。</li>
@@ -132,7 +133,7 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <td>N1 討論</td>
 <td>提出 2 個問題</td>
 <td>S1 的代理程度表標 multi-step agent ★★★，但 S1 自稱表格取自 S2，S2 原文是 ★★☆；S5 註明工具已改變</td>
-<td>使用者同意以 S2 為準並註記；S5 只取概念</td>
+<td>我決定以 S2 為準並註記；S5 只取概念</td>
 </tr>
 <tr>
 <td>2</td>
@@ -211,6 +212,41 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <td>檢查器沒抓到：測驗答錯的按鈕在滑鼠停留時文字變白、看不見；第 16 張頁尾太長，把翻頁按鈕擠成兩行</td>
 <td>修正樣式後重跑 N8a、N8b（run5、run4）：0 錯。這兩類（文字對比、元素被擠壓）目前仍要靠人看截圖</td>
 </tr>
+<tr>
+<td>11</td>
+<td>第二輪討論：檢視簡報初稿</td>
+<td><strong>5 張卡關、3 個結構問題</strong></td>
+<td>以「新手看不看得懂」為標準：術語沒解釋（第 1、5、8、14、15 張）、一次給三套構造說法、主題順序不清、第 9 張程式沒有 Thought</td>
+<td>決定先補 Wiki 再改簡報；第 9 張原始程式不動、改加註解</td>
+</tr>
+<tr>
+<td>12</td>
+<td>回查原始資料</td>
+<td><strong>1 個建議被否決</strong></td>
+<td>建議把第 8 張寫成「家務與網購任務」，但原始資料只說是文字遊戲和網頁操作</td>
+<td>以原始資料為準</td>
+</tr>
+<tr>
+<td>13</td>
+<td>缺口迴圈 N8a → N3</td>
+<td>補 Wiki</td>
+<td>新增術語小辭典、更新 4 個概念頁、raw 追加補充擷取；lint 加 L7</td>
+<td>lint 第 5 次：19 頁、124 條事實，<strong>0 錯</strong></td>
+</tr>
+<tr>
+<td>14</td>
+<td>新增 C6 後跑<strong>修改前</strong>的簡報</td>
+<td><strong>7 錯</strong></td>
+<td>和討論找到的問題吻合；但第 8、15 張的專有名詞抓不到</td>
+<td>改用人工處理</td>
+</tr>
+<tr>
+<td>15</td>
+<td>修改後 N8a、N8b</td>
+<td>1 錯＋1 錯</td>
+<td>第 15 張「防呆」沒有括號說明；第 12 張加中文名稱後超出版面；另發現 C6 逐張模式的 bug</td>
+<td>都修正；最後 0 錯</td>
+</tr>
 </tbody>
 </table>
 <p>截圖：完成後的第 9 張（互動迴圈跑完）</p>
@@ -227,4 +263,8 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 - <strong>新增 N8b 視覺檢查節點</strong>。原本的 graph 只有文字檢查，但第 9 張「按鈕點不到」這種錯，所有文字檢查都看不到。一份「可以實際瀏覽」的簡報，必須真的打開來看，所以把臨時截圖腳本改成正式節點，並用植入錯誤驗證它。
 - <strong>N7 ⇄ N8a 從「整份一個迴圈」改成「逐張迴圈」</strong>。錯誤集中在生成節點，迴圈越小，重做的成本越低，也越不會改 A 壞 B。</p>
 <p>另外，最後人工看截圖時，又找到 2 個檢查器沒抓到的版面問題（文字對比、按鈕被擠壓）。這代表 N8b 目前只檢查「超出版面」和「被蓋住」，還不夠；下一版可以加入對比度檢查。在那之前，發布前要保留一次人工看截圖。</p>
+<p><strong>第二輪討論後的補充：</strong>原本的檢查只確認「內容有沒有出處、版面有沒有壞」，沒有檢查「新手看不看得懂」。這個問題是人看初稿時才發現的，所以我又把它往前移了一步：
+- 在 Wiki 新增<strong>術語小辭典</strong>，讓白話解釋也有出處；
+- 在 N8a 新增 <strong>C6 術語門檻</strong>，術語第一次出現時沒有白話說明就算錯。用修改前的簡報驗證，C6 抓到了第 1、2、5、14 張的問題，和人工討論的結論一致。</p>
+<p>另外，第二輪的建議也不是全部照收：「家務與網購」回查原始資料後不成立，所以沒有採用。這也證明「先回 Wiki、回原始資料」這個缺口迴圈是必要的，不然簡報裡就會出現一個沒有出處的說法。</p>
 <p>另一個心得：<strong>N1 人工討論抓到的問題，是程式抓不到的</strong>。代理程度表的矛盾，兩份來源各自都「正確」，只有放在一起比較、再問人，才知道該信哪一個。所以人工關卡留在最前面，程式檢查放在每個生成節點後面。</p></main></body></html>
