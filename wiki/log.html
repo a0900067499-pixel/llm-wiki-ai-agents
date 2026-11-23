@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>log.md（只能追加，不可改寫） — AI Agents LLM Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+:root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff}header div{max-width:58rem;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+header a{color:var(--ink);text-decoration:none;font-weight:500}header a:hover{color:var(--think)}
+main{max-width:58rem;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+h1,h2,h3{font-family:"LXGW WenKai TC","Kaiti TC",serif;line-height:1.3}h1{font-size:2.2rem;margin:.4rem 0 1rem}h2{margin-top:2.2rem}
+a{color:var(--think)}p,li{max-width:46rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;background:#fff;font-size:.95rem}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:#F6F8F9}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.9em;background:#fff;padding:.05em .3em}
+pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:auto}pre code{padding:0}
+.meta{font-size:.88rem;color:var(--muted);background:#fff;border:1px solid var(--line);padding:.5rem .8rem;margin-bottom:1rem}
+.meta b{color:var(--ink);font-weight:500}
+.src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
+.path{font-size:.85rem;color:var(--muted)}
+</style></head><body><header><div><a href="../index.html">首頁</a><a href="../slides/index.html">教學簡報</a><a href="../wiki/index.html">Wiki 索引</a><a href="../docs/process.html">流程與反思</a><a href="../CLAUDE.html">規則檔</a><a href="../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/log.md　<a href="log.md">看 Markdown 原檔</a></p><h1>log.md（只能追加，不可改寫）</h1><div class="meta"><b>title</b>：變更紀錄　<b>updated</b>：2026-11-23</div>
+<h2>2026-11-23 09:27 — 討論：決定範圍</h2>
+<ul>
+<li>使用者選擇：主題 <strong>AI Agents</strong>；資料由 Claude 上網找 5–6 篇；「先討論」採<strong>整批討論一次</strong>；發布到 GitHub Pages。</li>
+<li>Claude 搜尋並以 WebFetch 讀取 6 篇候選（S1–S6），全部可讀。</li>
+</ul>
+<h2>2026-11-23 09:30 — 討論：提出重點、矛盾、結構</h2>
+<ul>
+<li>Claude 把每篇重點、預計 wiki 結構、簡報大綱給使用者確認。</li>
+<li>提出 2 個問題：①S1 的代理程度表標 multi-step agent 為 ★★★，S1 說表格取自 S2，但 S2 原文是 ★★☆；②S5 頁面註明工具已改變。</li>
+<li>建議：①以原始出處 S2 為準並在頁面註記；②S5 只採概念不寫工具名稱。</li>
+</ul>
+<h2>2026-11-23 09:34 — 討論：使用者確認</h2>
+<ul>
+<li>使用者回覆：6 篇與兩個矛盾處理方式「<strong>都同意</strong>」；簡報觀眾為「<strong>有一點程式基礎</strong>」。</li>
+<li>GitHub：repo <code>a0900067499-pixel/llm-wiki-ai-agents</code> 已建，但 Claude 沒有推送權限 → 使用者選「給 zip 自己上傳」。</li>
+</ul>
+<h2>2026-11-23 — ingest S1–S6</h2>
+<ul>
+<li>寫入 raw/S1–S6（擷取筆記，之後不可修改）。</li>
+<li>建立概念頁 9 頁、來源頁 6 頁、overview、index。</li>
+<li>下一步：執行 lint。</li>
+</ul>
+<h2>2026-11-23 — lint 第 1 次（pipeline/reports/lint_run1.txt）</h2>
+<ul>
+<li>結果：18 頁、111 條事實，1 個錯誤。</li>
+<li>L6：<code>agency-spectrum.md</code>（代理程度光譜）有矛盾小節，但 log 只描述了矛盾、沒寫是哪一頁 → 追蹤不到。</li>
+<li>修正：在此補記，矛盾 ① 記錄於 <a href="concepts/agency-spectrum.html">代理程度光譜</a>；矛盾 ② 記錄於 <a href="sources/S5.html">S5 來源頁</a>。</li>
+<li>另外先拿 4 個故意植入的錯誤（假數字、缺來源、來源不符、壞連結）測 lint，4 個都抓到 → 確認檢查器有效。</li>
+</ul>
+<h2>2026-11-23 — query：產生簡報大綱（slides/outline.md）</h2>
+<ul>
+<li>只讀 wiki/，產生 17 張投影片大綱，每張標註對應 wiki 頁。</li>
+<li>大綱檢查第 1 次：0 錯誤（9 個概念頁都有被用到；有學習目標、測驗、回顧）。</li>
+</ul>
+<h2>2026-11-23 — 生成簡報與檢查</h2>
+<ul>
+<li>簡報檢查第 1 次：<strong>19 個錯誤</strong>。其中 18 個是「借用沒宣告的頁」（第 2、9、17 張用了別頁內容，但沒列在對應頁）；1 個是<strong>捏造</strong>（測驗選項「修 bug 的程式助理」wiki 裡沒有）。</li>
+<li>修正：補齊三張的對應頁（大綱同步修改）；把測驗選項改成 wiki 有的「開工單、完成交易的客服機器人」。第 2 次：0 錯誤。</li>
+<li>視覺檢查第 1 次（臨時腳本）：17 張中 10 張超出版面，第 9 張按鈕被文字蓋住點不到 → 縮小字級與邊距、導覽移進頁尾、記憶區可捲動。</li>
+<li>把視覺檢查正式加入 pipeline（check_visual.py），並用植入錯誤確認 V1、V2 都抓得到；第 2 次：0 錯誤。</li>
+<li>依這次的問題，在 CLAUDE.md 新增規則 4–6（把檢查往前移）。</li>
+</ul>
+<h2>2026-11-23 — 發布前人工檢查截圖</h2>
+<ul>
+<li>檢查器沒抓到的 2 個問題：測驗答錯的按鈕在滑鼠停留時文字看不見；第 16 張頁尾太長，擠壓翻頁按鈕。</li>
+<li>修正後重跑內容檢查與視覺檢查：0 錯。結論：發布前仍保留一次人工看截圖。</li>
+</ul></main></body></html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 的組成元件 — AI Agents LLM Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+:root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff}header div{max-width:58rem;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+header a{color:var(--ink);text-decoration:none;font-weight:500}header a:hover{color:var(--think)}
+main{max-width:58rem;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+h1,h2,h3{font-family:"LXGW WenKai TC","Kaiti TC",serif;line-height:1.3}h1{font-size:2.2rem;margin:.4rem 0 1rem}h2{margin-top:2.2rem}
+a{color:var(--think)}p,li{max-width:46rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;background:#fff;font-size:.95rem}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:#F6F8F9}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.9em;background:#fff;padding:.05em .3em}
+pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:auto}pre code{padding:0}
+.meta{font-size:.88rem;color:var(--muted);background:#fff;border:1px solid var(--line);padding:.5rem .8rem;margin-bottom:1rem}
+.meta b{color:var(--ink);font-weight:500}
+.src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
+.path{font-size:.85rem;color:var(--muted)}
+</style></head><body><header><div><a href="../../index.html">首頁</a><a href="../../slides/index.html">教學簡報</a><a href="../../wiki/index.html">Wiki 索引</a><a href="../../docs/process.html">流程與反思</a><a href="../../CLAUDE.html">規則檔</a><a href="../../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/concepts/agent-components.md　<a href="agent-components.md">看 Markdown 原檔</a></p><h1>Agent 的組成元件</h1><div class="meta"><b>title</b>：Agent 的組成元件　<b>sources</b>：[S3, S5, S6]　<b>updated</b>：2026-11-23</div>
+<h2>觀點一：大腦＋三大元件（Lilian Weng）</h2>
+<ul>
+<li>LLM 是 agent 的大腦，另外搭配三個元件：<strong>規劃、記憶、工具使用</strong>。<span class="src">[S3]</span></li>
+<li><strong>規劃</strong>：把大任務拆成子目標（Chain of Thought「一步一步想」、Tree of Thoughts 同時探索多條思路），並透過自我反思修正過去的動作（ReAct、Reflexion）。<span class="src">[S3]</span></li>
+<li><strong>記憶</strong>：短期記憶＝放在 context window 裡的內容（in-context learning），受長度限制；長期記憶＝外部向量資料庫，需要時再檢索。<span class="src">[S3]</span></li>
+<li>長期記憶的快速檢索常用近似最近鄰演算法，例如 LSH、HNSW、FAISS、ScaNN。<span class="src">[S3]</span></li>
+<li><strong>工具使用</strong>：呼叫外部 API 取得模型本身沒有的資訊或能力；例如 MRKL 讓 LLM 把問題轉給計算機等專家模組。<span class="src">[S3]</span></li>
+<li>MRKL 實驗發現 LLM 不一定抽得出正確的參數 → 「何時用、怎麼用工具」本身就是能力。<span class="src">[S3]</span></li>
+</ul>
+<h2>觀點二：Model / Tools / Instructions（OpenAI）</h2>
+<ul>
+<li><strong>Model</strong>：負責推理與決策的 LLM。<span class="src">[S6]</span></li>
+<li><strong>Tools</strong>：agent 用來行動的外部函式或 API；沒有 API 的舊系統可以用 computer-use 模型操作畫面。<span class="src">[S6]</span></li>
+<li><strong>Instructions</strong>：明確的行為準則與護欄。<span class="src">[S6]</span></li>
+<li>工具三類：<strong>資料類</strong>（查資料庫、讀 PDF、搜尋網路）、<strong>行動類</strong>（寄信、更新紀錄、轉交真人）、<strong>協調類</strong>（把其他 agent 當工具）。<span class="src">[S6]</span></li>
+</ul>
+<h2>觀點三：Augmented LLM（Anthropic）</h2>
+<ul>
+<li>最基本的積木是「增強版 LLM」：LLM＋檢索＋工具＋記憶，並給它清楚、文件完整的介面。<span class="src">[S5]</span></li>
+</ul>
+<h2>三種觀點怎麼對應</h2>
+<ul>
+<li>三者其實說的是同一件事：一個會推理的模型，加上取得資訊與採取行動的能力，再加上規則。<span class="src">[綜合: S3,S5,S6]</span></li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="agent-loop-react.html">Agent Loop 與 ReAct</a>、<a href="guardrails-and-human.html">護欄與人工介入</a></li>
+</ul></main></body></html>

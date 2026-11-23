@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLAUDE.md — AI Agents LLM Wiki 規則檔（schema） — AI Agents LLM Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+:root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff}header div{max-width:58rem;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+header a{color:var(--ink);text-decoration:none;font-weight:500}header a:hover{color:var(--think)}
+main{max-width:58rem;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+h1,h2,h3{font-family:"LXGW WenKai TC","Kaiti TC",serif;line-height:1.3}h1{font-size:2.2rem;margin:.4rem 0 1rem}h2{margin-top:2.2rem}
+a{color:var(--think)}p,li{max-width:46rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;background:#fff;font-size:.95rem}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:#F6F8F9}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.9em;background:#fff;padding:.05em .3em}
+pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:auto}pre code{padding:0}
+.meta{font-size:.88rem;color:var(--muted);background:#fff;border:1px solid var(--line);padding:.5rem .8rem;margin-bottom:1rem}
+.meta b{color:var(--ink);font-weight:500}
+.src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
+.path{font-size:.85rem;color:var(--muted)}
+</style></head><body><header><div><a href="index.html">首頁</a><a href="slides/index.html">教學簡報</a><a href="wiki/index.html">Wiki 索引</a><a href="docs/process.html">流程與反思</a><a href="CLAUDE.html">規則檔</a><a href="pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">CLAUDE.md　<a href="CLAUDE.md">看 Markdown 原檔</a></p><h1>CLAUDE.md — AI Agents LLM Wiki 規則檔（schema）</h1>
+<p>這份檔案告訴 LLM 這個 Wiki 怎麼維護。依照 Karpathy 的 LLM Wiki 模式分三層：</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>資料夾</th>
+<th>誰負責</th>
+<th>規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原始資料</td>
+<td><code>raw/</code></td>
+<td>人提供、LLM 擷取</td>
+<td>一篇一檔（S1–S6），<strong>ingest 後不再修改</strong></td>
+</tr>
+<tr>
+<td>Wiki</td>
+<td><code>wiki/</code></td>
+<td>LLM 維護</td>
+<td>概念頁 <code>concepts/</code>、來源頁 <code>sources/</code>、<code>index.md</code>、<code>log.md</code>、<code>overview.md</code></td>
+</tr>
+<tr>
+<td>規則</td>
+<td><code>CLAUDE.md</code></td>
+<td>人與 LLM 討論後訂定</td>
+<td>本檔</td>
+</tr>
+</tbody>
+</table>
+<h2>頁面格式</h2>
+<p>每個概念頁開頭：</p>
+<pre><code>---
+title: 頁名
+sources: <span class="src">[S1, S5]</span>
+updated: 2026-11-23
+---
+</code></pre>
+<ul>
+<li><strong>每一條事實（以 <code>-</code> 開頭的條列）結尾都要標來源</strong>，例如 <code><span class="src">[S5]</span></code>；若是跨來源整理寫 <code><span class="src">[綜合: S1,S2]</span></code>。</li>
+<li>頁面之間用相對連結互連，例如 <code>[代理程度光譜](agency-spectrum.md)</code>。</li>
+<li>來源之間有矛盾時，<strong>不可自行挑一個寫</strong>：放進頁面的「⚠ 矛盾與註記」小節，並在 <code>log.md</code> 記錄怎麼處理（需經使用者確認）。</li>
+<li>不寫來源中沒有的數字。數字一律要能在 <code>raw/</code> 找到。</li>
+</ul>
+<h2>操作</h2>
+<ol>
+<li><strong>ingest</strong>：讀 <code>raw/Sx.md</code> → 寫 <code>sources/Sx.md</code> 摘要 → 更新或新增相關概念頁 → 更新 <code>index.md</code> → 在 <code>log.md</code> 追加一行。</li>
+<li><strong>query</strong>：回答問題（例如「簡報大綱」）時只能讀 <code>wiki/</code>；若 wiki 缺資料，記錄為「缺口」，回到 ingest 補，不可直接上網補進簡報。</li>
+<li><strong>lint</strong>：執行 <code>python3 pipeline/lint_wiki.py</code>，檢查來源標記、壞連結、孤兒頁、矛盾小節。</li>
+</ol>
+<h2>主題範圍</h2>
+<p>AI Agents 入門：定義、代理程度、組成元件、agent loop / ReAct、workflow vs agent、設計模式、何時使用、護欄與人工介入、挑戰。觀眾：有一點程式基礎的初學者。</p>
+<h2>第一次實際執行後新增的規則（2026-11-23）</h2>
+<ol>
+<li><strong>大綱要宣告所有用到的頁</strong>：投影片只要借用別頁的例子（例如在 loop 頁用 Alfred 的例子），大綱的「對應 Wiki 頁」欄就要列出那一頁。測驗選項也必須來自 wiki。</li>
+<li><strong>逐張生成、逐張檢查</strong>：每生成一張投影片就跑 <code>check_slides.py --only N</code>，不要整份寫完才檢查。</li>
+<li><strong>版面預算</strong>：每張投影片最多 1 段導語＋5 個條列或 3 個卡片；整份完成後跑 <code>check_visual.py</code>（V1 超出版面、V2 按鈕被蓋住）。</li>
+</ol></main></body></html>

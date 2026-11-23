@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Powered Autonomous Agents (Lilian Weng, Lil&#x27;Log) — AI Agents LLM Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+:root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff}header div{max-width:58rem;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+header a{color:var(--ink);text-decoration:none;font-weight:500}header a:hover{color:var(--think)}
+main{max-width:58rem;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+h1,h2,h3{font-family:"LXGW WenKai TC","Kaiti TC",serif;line-height:1.3}h1{font-size:2.2rem;margin:.4rem 0 1rem}h2{margin-top:2.2rem}
+a{color:var(--think)}p,li{max-width:46rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;background:#fff;font-size:.95rem}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:#F6F8F9}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.9em;background:#fff;padding:.05em .3em}
+pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:auto}pre code{padding:0}
+.meta{font-size:.88rem;color:var(--muted);background:#fff;border:1px solid var(--line);padding:.5rem .8rem;margin-bottom:1rem}
+.meta b{color:var(--ink);font-weight:500}
+.src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
+.path{font-size:.85rem;color:var(--muted)}
+</style></head><body><header><div><a href="../index.html">首頁</a><a href="../slides/index.html">教學簡報</a><a href="../wiki/index.html">Wiki 索引</a><a href="../docs/process.html">流程與反思</a><a href="../CLAUDE.html">規則檔</a><a href="../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">raw/S3.md　<a href="S3.md">看 Markdown 原檔</a></p><div class="meta"><b>id</b>：S3　<b>title</b>：&quot;LLM Powered Autonomous Agents (Lilian Weng, Lil&#x27;Log)&quot;　<b>url</b>：https://lilianweng.github.io/posts/2023-06-23-agent/　<b>date</b>：2023-06-23　<b>retrieved</b>：2026-11-23　<b>note</b>：以 WebFetch 擷取後的重點筆記（改寫，非原文全文）。ingest 後不可修改。</div><ul>
+<li>LLM is the agent's brain, complemented by three components: planning, memory, tool use.</li>
+<li>Planning / task decomposition: Chain of Thought (think step by step); Tree of Thoughts (multiple thoughts per step, searched as tree via BFS/DFS); LLM+P (LLM translates to PDDL, classical planner solves, translates back). Decomposition by simple prompting, task-specific instructions, or human input.</li>
+<li>Planning / self-reflection: ReAct (Thought, Action, Observation interleaved); Reflexion (binary reward, verbal self-reflections stored in memory, heuristics detect inefficient planning or hallucination, reset trial); Chain of Hindsight; Algorithm Distillation.</li>
+<li>Memory mapping: sensory memory → embeddings of raw input; short-term memory → in-context learning limited by context window; long-term memory → external vector store queried at retrieval time.</li>
+<li>Fast retrieval (MIPS / approximate nearest neighbour): LSH, ANNOY, HNSW, FAISS, ScaNN.</li>
+<li>Tool use: MRKL (LLM routes to expert modules like calculators; struggled to extract right arguments for verbal math → knowing when/how to use tools matters); TALM &amp; Toolformer (fine-tune to call APIs); ChatGPT plugins &amp; function calling; HuggingGPT (task planning, model selection, task execution, response generation); API-Bank benchmark (53 tools, 264 dialogues; levels: call API, retrieve API, plan across calls).</li>
+<li>Case studies: ChemCrow (13 chemistry tools; LLM-based eval rated it ≈ GPT-4, human experts strongly preferred ChemCrow → LLMs may be poor judges of their own performance in expert domains); scientific discovery agent with risks; Generative Agents (25 characters in sandbox; memory stream, retrieval by recency/importance/relevance, reflection, planning); AutoGPT (much code for output parsing, reliability issues); GPT-Engineer.</li>
+<li>Challenges: finite context length; long-term planning and task decomposition (hard to recover from unexpected errors); reliability of natural language interface (formatting errors, refusing instructions).</li>
+</ul></main></body></html>

@@ -1,0 +1,3 @@
+Wiki lint：18 頁、檢查 111 條事實
+錯誤數：1
+L6 wiki/concepts/agency-spectrum.md 有矛盾小節，但 log.md 沒有提到「代理程度光譜」

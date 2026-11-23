@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agents 是什麼？— 教學簡報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF2F4; --ink:#1C2B3A; --muted:#5E6E7D; --line:#C9D3DA;
+  --think:#4A4DB8; --act:#C27C0E; --obs:#0E7A70; --card:#FFFFFF;
+  --head:"LXGW WenKai TC","Kaiti TC","KaiTi",serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#D9E1E6;color:var(--ink);font-family:var(--body)}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage{width:min(100vw,177.78vh);aspect-ratio:16/9;position:relative;background:var(--paper);
+  box-shadow:0 1px 0 var(--line);overflow:hidden;font-size:calc(min(100vw,177.78vh)/74)}
+.slide{position:absolute;inset:0;padding:4em 6em 5.4em;display:none;flex-direction:column}
+.slide.on{display:flex}
+h1,h2,h3{font-family:var(--head);font-weight:700;margin:0;line-height:1.25}
+h1{font-size:4.2em;letter-spacing:.02em}
+h2{font-size:2.6em;margin-bottom:.55em}
+h3{font-size:1.45em;margin-bottom:.35em}
+p,li{font-size:1.3em;line-height:1.65;max-width:40em}
+p{margin:.5em 0}
+ul{margin:.2em 0;padding-left:1.2em}
+li{margin:.25em 0}
+code,pre{font-family:var(--mono)}
+pre{font-size:1.08em;line-height:1.6;background:var(--card);border-left:.3em solid var(--think);
+  padding:1em 1.3em;margin:0;white-space:pre;overflow:hidden}
+.lead{font-size:1.6em;color:var(--muted);max-width:30em;margin-top:.8em}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3em;align-items:start}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:2em}
+.box{background:var(--card);padding:1.2em 1.4em;border-top:.28em solid var(--line)}
+.box p,.box li{font-size:1.18em}
+.t{color:var(--think)} .a{color:var(--act)} .o{color:var(--obs)}
+.bt{border-top-color:var(--think)} .ba{border-top-color:var(--act)} .bo{border-top-color:var(--obs)}
+.note{font-size:1.05em;color:var(--muted);margin-top:auto}
+.no{color:var(--muted);text-decoration:line-through}
+/* 代理程度表 */
+table{border-collapse:collapse;font-size:1.15em;width:100%}
+th,td{text-align:left;padding:.45em .8em;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;color:var(--muted)}
+td code{font-size:.9em}
+.stars{font-family:var(--mono);color:var(--act);white-space:nowrap}
+/* 標題頁的迴圈 */
+.ring{display:flex;gap:1.2em;align-items:center;margin-top:2.4em;font-family:var(--head);font-size:2em}
+.ring span{padding:.15em .6em;border:2px solid currentColor;border-radius:2em}
+.ring i{font-style:normal;color:var(--muted)}
+/* 互動迴圈 */
+.loop{display:grid;grid-template-columns:1.05fr 1fr;gap:2.4em;align-items:start}
+.mem{background:var(--card);padding:.8em 1em;overflow-y:auto;font-size:1em;max-height:24em;scroll-behavior:smooth}
+.mem div{padding:.25em .6em;margin:.2em 0;border-left:.3em solid var(--line);line-height:1.5}
+.mem .k-t{border-color:var(--think)} .mem .k-a{border-color:var(--act)} .mem .k-o{border-color:var(--obs)} .mem .k-u{border-color:var(--ink)}
+.mem .k-done{border-color:var(--ink);font-weight:700}
+.mem b{font-family:var(--mono);font-weight:600;margin-right:.5em}
+.ctrl{display:flex;gap:.8em;margin-top:1em}
+button{font:inherit;font-size:1.1em;padding:.5em 1.1em;border:2px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer}
+button:hover{background:var(--ink);color:var(--paper)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--think);outline-offset:3px}
+.hl{background:#DDE3F7;outline:2px solid var(--think)}
+/* 測驗 */
+.q{margin-bottom:1.1em}
+.q p{margin:0 0 .4em}
+.opts{display:flex;gap:.7em;flex-wrap:wrap}
+.opts button{font-size:1em;padding:.35em .9em}
+.opts button.right{background:var(--obs);border-color:var(--obs);color:#fff}
+.opts button.wrong{background:#F3E3C7;border-color:var(--act);color:var(--ink)}
+.fb{font-size:1.05em;color:var(--muted);min-height:1.6em;margin-top:.3em}
+/* 頁尾 */
+footer{position:absolute;left:6em;right:6em;bottom:1.4em;display:flex;justify-content:space-between;align-items:center;gap:1em;
+  font-size:1em;color:var(--muted);border-top:1px solid var(--line);padding-top:.6em}
+footer a{color:var(--muted)}
+.bar{position:absolute;left:0;top:0;height:.35em;background:var(--think);transition:width .3s}
+.nav{display:flex;gap:.6em;align-items:center;white-space:nowrap;flex:none}
+#src{min-width:0}
+.nav button{font-size:.95em;padding:.25em .8em}
+@media (prefers-reduced-motion:reduce){.bar{transition:none}}
+@media (max-aspect-ratio:1/1){
+  body{overflow:auto;align-items:flex-start}
+  .stage{width:100vw;aspect-ratio:auto;min-height:100vh;font-size:2.6vw}
+  .slide{position:relative;padding:3em 1.6em 6em}
+  .cols,.cols3,.loop{grid-template-columns:1fr}
+  footer{left:1.6em;right:1.6em}
+}
+</style>
+</head>
+<body>
+<main class="stage" id="stage" aria-live="polite">
+<div class="bar" id="bar"></div>
+
+<!-- 1 -->
+<section class="slide" data-wiki="overview.md">
+  <h1>AI Agents 是什麼？</h1>
+  <p class="lead">讓 LLM 不只回答問題，而是自己決定下一步、用工具去做、看結果再決定。</p>
+  <div class="ring" aria-label="Agent 迴圈：Thought、Action、Observation">
+    <span class="t">Thought 想</span><i>→</i><span class="a">Action 做</span><i>→</i><span class="o">Observation 看</span><i>↺</i>
+  </div>
+  <p class="note">整份簡報的內容都來自 AI Agents LLM Wiki，每頁下方都連回對應的 Wiki 頁。按 → 或空白鍵前進。</p>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-wiki="index.md,overview.md">
+  <h2>今天的學習目標</h2>
+  <div class="cols">
+    <div>
+      <h3>上完這堂，你能夠⋯⋯</h3>
+      <ul>
+        <li>用一句話說出 agent 是什麼，並分辨「不是 agent」的例子</li>
+        <li>說出 agent 的組成元件</li>
+        <li>看懂 Thought → Action → Observation 迴圈的程式</li>
+        <li>判斷一個任務該用 workflow 還是 agent</li>
+        <li>說出 agent 的風險與護欄</li>
+      </ul>
+    </div>
+    <div class="box bt">
+      <h3>路線</h3>
+      <p>比喻 → 定義 → 構造 → 運作 → 設計 → 判斷 → 風險 → 小測驗 → 回顧</p>
+      <p class="note">觀眾設定：有一點程式基礎。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-wiki="concepts/what-is-an-agent.md">
+  <h2>從管家 Alfred 說起</h2>
+  <p>你對 Alfred 說：「我想喝咖啡。」</p>
+  <div class="cols3" style="margin-top:1.2em">
+    <div class="box bt"><h3 class="t">聽懂、規劃</h3><p>去廚房 → 用咖啡機 → 煮 → 端回來。</p></div>
+    <div class="box ba"><h3 class="a">使用工具</h3><p>他知道有咖啡機可以用，就去用它。</p></div>
+    <div class="box bo"><h3 class="o">完成目標</h3><p>把咖啡交到你手上。</p></div>
+  </div>
+  <p style="margin-top:1.4em">Alfred 有「代理能力」（agency），因為他能<strong>改變周遭的環境</strong>，而不只是說話。</p>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-wiki="concepts/what-is-an-agent.md">
+  <h2>Agent 的定義</h2>
+  <div class="cols">
+    <div>
+      <h3>兩種說法</h3>
+      <ul>
+        <li><strong>課程版：</strong>用 AI 模型和環境互動、去達成使用者目標的系統，結合推理、規劃與行動，通常透過外部工具。</li>
+        <li><strong>工程版：</strong>LLM 的輸出<strong>控制了程式的流程</strong>。</li>
+      </ul>
+      <p>關鍵特徵：LLM 自己管理流程、判斷何時完成、修正動作，失敗時能停下來把控制權交還給你。</p>
+    </div>
+    <div class="box ba">
+      <h3>這些「不是」agent</h3>
+      <ul>
+        <li class="no">單純的聊天機器人</li>
+        <li class="no">單次 LLM 呼叫</li>
+        <li class="no">情緒分類器</li>
+      </ul>
+      <p>它們都用了 LLM，但 LLM 沒有決定接下來要做什麼。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-wiki="concepts/agent-components.md">
+  <h2>大腦，加上三大元件</h2>
+  <p>LLM 是 agent 的大腦。但只有大腦不夠，還需要：</p>
+  <div class="cols3" style="margin-top:1em">
+    <div class="box bt"><h3 class="t">規劃</h3><p>把大任務拆成子目標（例如 Chain of Thought：一步一步想），並反思、修正做過的事。</p></div>
+    <div class="box bo"><h3 class="o">記憶</h3><p><strong>短期：</strong>放在 context window 裡的內容，有長度限制。<br><strong>長期：</strong>外部向量資料庫，需要時再檢索。</p></div>
+    <div class="box ba"><h3 class="a">工具使用</h3><p>LLM 只能產生文字。要查資料、寄信、生圖，都得透過工具（API、函式）。</p></div>
+  </div>
+  <p style="margin-top:1.2em">注意：「何時用、怎麼用工具」本身就是能力，LLM 不一定抽得出正確的參數。</p>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-wiki="concepts/agent-components.md">
+  <h2>工具分三類，再加上指令</h2>
+  <table>
+    <tr><th>類型</th><th>用途</th><th>例子</th></tr>
+    <tr><td class="o"><strong>資料類</strong></td><td>取得完成任務需要的資訊</td><td>查資料庫、讀 PDF、搜尋網路</td></tr>
+    <tr><td class="a"><strong>行動類</strong></td><td>改變外部系統</td><td>寄信、更新紀錄、轉交真人</td></tr>
+    <tr><td class="t"><strong>協調類</strong></td><td>把其他 agent 當工具</td><td>退款 agent、研究 agent</td></tr>
+  </table>
+  <p style="margin-top:1.2em">OpenAI 把 agent 拆成 <strong>Model</strong>（推理）＋ <strong>Tools</strong>（行動）＋ <strong>Instructions</strong>（行為準則與護欄）。Anthropic 則稱最基本的積木為「增強版 LLM」：LLM ＋ 檢索 ＋ 工具 ＋ 記憶。兩種說法講的是同一件事。</p>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-wiki="concepts/agency-spectrum.md">
+  <h2>是不是 agent？是程度問題</h2>
+  <table>
+    <tr><th>程度</th><th>名稱</th><th>LLM 的輸出控制了什麼</th><th>程式長相</th></tr>
+    <tr><td class="stars">☆☆☆</td><td>Simple processor</td><td>不影響流程</td><td><code>process_llm_output(resp)</code></td></tr>
+    <tr><td class="stars">★☆☆</td><td>Router</td><td>一個 if/else 分支</td><td><code>if llm_decision(): path_a()</code></td></tr>
+    <tr><td class="stars">★★☆</td><td>Tool call</td><td>要執行哪個函式</td><td><code>run_function(tool, args)</code></td></tr>
+    <tr><td class="stars">★★☆</td><td>Multi-step agent</td><td>要不要繼續下一輪</td><td><code>while llm_should_continue(): ...</code></td></tr>
+    <tr><td class="stars">★★★</td><td>Multi-agent</td><td>一個 agent 啟動另一個</td><td><code>if llm_trigger(): execute_agent()</code></td></tr>
+  </table>
+  <p class="note">Wiki 註記：HF 課程把 Multi-step agent 標成 ★★★，但原始出處 smolagents 標 ★★☆。本表以原始出處為準。</p>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-wiki="concepts/agent-loop-react.md">
+  <h2>ReAct：想一下、做一下、看結果</h2>
+  <div class="cols">
+    <div>
+      <p>以前的研究常把「推理」和「行動」分開。ReAct 讓兩者<strong>交錯進行</strong>：</p>
+      <ul>
+        <li><span class="t"><strong>Thought</strong></span>：建立、追蹤、更新計畫，處理例外</li>
+        <li><span class="a"><strong>Action</strong></span>：呼叫工具，向外部取得資訊</li>
+        <li><span class="o"><strong>Observation</strong></span>：讀取工具結果，再進入下一輪</li>
+      </ul>
+    </div>
+    <div class="box bo">
+      <h3>效果</h3>
+      <ul>
+        <li>問答與事實查核：用簡單的 Wikipedia API 查資料，減少幻覺與錯誤累積。</li>
+        <li>ALFWorld／WebShop：成功率比模仿學習、強化學習方法絕對提升 <strong>34%</strong>／<strong>10%</strong>，只用一兩個範例提示。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-wiki="concepts/agent-loop-react.md,concepts/what-is-an-agent.md" data-kind="illustration">
+  <h2>把迴圈寫成程式</h2>
+  <div class="loop">
+    <div>
+<pre id="code"><span data-l="0">memory = [user_defined_task]</span>
+<span data-l="1">while llm_should_continue(memory):</span>
+<span data-l="2">    action = llm_get_next_action(memory)</span>
+<span data-l="3">    observations = execute_action(action)</span>
+<span data-l="4">    memory += [action, observations]</span></pre>
+      <p style="margin-top:.8em;font-size:1.15em">迴圈什麼時候停？呼叫了「最終輸出」工具、回覆時不再呼叫工具、發生錯誤，或達到最大回合數。</p>
+      <div class="ctrl"><button id="stepBtn">執行下一步</button><button id="resetBtn">重來</button></div>
+    </div>
+    <div class="mem" id="mem" aria-live="polite"><div class="k-u"><b>memory</b>（按「執行下一步」看它怎麼長大）</div></div>
+  </div>
+  <p class="note" style="margin-top:1.2em">示意：沿用 Alfred 煮咖啡的例子，觀察結果是為了說明而編寫的。</p>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-wiki="concepts/workflow-vs-agent.md">
+  <h2>Workflow 還是 Agent？</h2>
+  <div class="cols">
+    <div class="box bt">
+      <h3>Workflow</h3>
+      <p>用<strong>預先寫好的程式路徑</strong>編排 LLM 與工具。適合定義清楚、需要可預測的任務。</p>
+      <p><em>衝浪旅行社：</em>顧客只想查行程或找業務 → 一個搜尋框加一個聯絡表單就夠。</p>
+    </div>
+    <div class="box ba">
+      <h3>Agent</h3>
+      <p>讓 LLM <strong>自己動態決定</strong>流程與工具。適合需要彈性的情境。</p>
+      <p><em>衝浪旅行社：</em>「週一到，但忘了護照可能延到週三，能不能週二早上去衝浪、還要取消險？」→ 需要天氣、地圖、排班表、知識庫一起判斷。</p>
+    </div>
+  </div>
+  <p style="margin-top:1.2em">判斷法則：<strong>預先寫好的流程太常不夠用時</strong>，才需要 agent 的彈性。</p>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-wiki="concepts/design-patterns.md">
+  <h2>五種設計模式，由簡到繁</h2>
+  <table>
+    <tr><th></th><th>模式</th><th>做法</th><th>例子</th></tr>
+    <tr><td>1</td><td><strong>Prompt chaining</strong></td><td>固定步驟串接，中間加檢查關卡</td><td>寫大綱 → 檢查 → 寫全文</td></tr>
+    <tr><td>2</td><td><strong>Routing</strong></td><td>先分類，再送到專門流程</td><td>客服分成一般、退款、技術</td></tr>
+    <tr><td>3</td><td><strong>Parallelization</strong></td><td>子任務同時跑，或同題多跑投票</td><td>多個 prompt 檢查程式漏洞</td></tr>
+    <tr><td>4</td><td><strong>Orchestrator-workers</strong></td><td>指揮者在執行時拆任務、分派、彙整</td><td>一次修改很多檔案</td></tr>
+    <tr><td>5</td><td><strong>Evaluator-optimizer</strong></td><td>一個產生、一個評估，反覆改進</td><td>文學翻譯、多輪搜尋</td></tr>
+  </table>
+  <p class="note">這份簡報本身就是用「chaining ＋ 檢查關卡」和「evaluator-optimizer」做出來的，詳見流程說明頁。</p>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-wiki="concepts/design-patterns.md">
+  <h2>什麼時候拆成多個 agent？</h2>
+  <p>先把<strong>單一 agent</strong> 用到極限，多 agent 會增加複雜度。拆分的訊號是提示詞邏輯太複雜，或工具太多又彼此重疊。</p>
+  <div class="cols" style="margin-top:1em">
+    <div class="box bt"><h3>Manager 模式</h3><p>經理 agent 把專門 agent 當工具呼叫，自己負責跟使用者對話。</p><p><em>例：</em>翻譯經理呼叫西語、法語、義語 agent。</p></div>
+    <div class="box bo"><h3>Handoff 模式</h3><p>同儕 agent 之間轉交控制權。</p><p><em>例：</em>分診 agent 轉給技術支援、業務、訂單管理。</p></div>
+  </div>
+  <p class="note">工具數量沒有固定上限：有的系統能處理 15 個以上不同工具，有的在不到 10 個重疊工具時就出錯。</p>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-wiki="concepts/when-to-use-agents.md">
+  <h2>何時該用 agent？</h2>
+  <div class="cols">
+    <div>
+      <h3>先選最簡單的</h3>
+      <ul>
+        <li>agentic 系統是用「更慢、更貴」換「表現更好」</li>
+        <li>很多應用只要把單次 LLM 呼叫優化好就夠</li>
+        <li>流程可預測，就直接寫死，最可靠</li>
+      </ul>
+    </div>
+    <div class="box ba">
+      <h3>三個「該用」的訊號</h3>
+      <ul>
+        <li><strong>複雜決策</strong>：例如退款審核</li>
+        <li><strong>難維護的規則</strong>：例如供應商資安審查</li>
+        <li><strong>大量非結構化資料</strong>：例如房屋保險理賠</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:1.2em">比喻：規則引擎像核對清單，agent 像資深調查員，讀得出細微的脈絡。</p>
+</section>
+
+<!-- 14 -->
+<section class="slide" data-wiki="concepts/guardrails-and-human.md">
+  <h2>護欄與人工介入</h2>
+  <div class="cols">
+    <div>
+      <h3>多層護欄，一層擋不住還有下一層</h3>
+      <ul>
+        <li>相關性分類器：擋離題問題</li>
+        <li>安全分類器：偵測越獄、提示詞注入</li>
+        <li>個資過濾、內容審核</li>
+        <li>工具風險分級：看讀或寫、能否復原、金錢影響</li>
+        <li>規則式防護：黑名單、長度限制、正規表示式</li>
+      </ul>
+    </div>
+    <div class="box ba">
+      <h3>什麼時候要找真人</h3>
+      <ul>
+        <li><strong>超過失敗門檻</strong>：例如多次聽不懂顧客意圖</li>
+        <li><strong>高風險動作</strong>：取消訂單、大額退款、付款</li>
+      </ul>
+      <p>自主 agent 錯誤會累積，應先在沙盒中充分測試。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="slide" data-wiki="concepts/challenges.md">
+  <h2>Agent 的弱點</h2>
+  <div class="cols">
+    <ul>
+      <li><strong>context 有限</strong>：歷史、指令、工具說明都要塞進去</li>
+      <li><strong>長期規劃困難</strong>：長任務遇到意外錯誤時很難調整</li>
+      <li><strong>輸出格式不可靠</strong>：所以很多程式碼在做解析</li>
+      <li><strong>錯誤會累積</strong>：每一步的小錯一路放大</li>
+    </ul>
+    <div class="box bo">
+      <h3>LLM 不一定能評估自己</h3>
+      <p>ChemCrow 案例：LLM 評審認為它和 GPT-4 差不多，但化學專家明顯偏好 ChemCrow。</p>
+      <h3 style="margin-top:.8em">工具比提示詞更重要</h3>
+      <p>強制使用絕對路徑，就消除了 agent 切換目錄後的錯誤。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="slide" data-wiki="concepts/what-is-an-agent.md,concepts/workflow-vs-agent.md,concepts/guardrails-and-human.md">
+  <h2>小測驗</h2>
+  <div class="q" data-ans="b">
+    <p>甲、下列哪一個<strong>不是</strong> agent？</p>
+    <div class="opts"><button data-v="a">會自己查天氣再排行程的助理</button><button data-v="b">情緒分類器</button><button data-v="c">會開工單、完成交易的客服機器人</button></div>
+    <div class="fb" data-ok="對！它只用 LLM 判斷情緒，LLM 沒有控制流程。" data-no="再想想：哪一個的 LLM 沒有決定「下一步做什麼」？"></div>
+  </div>
+  <div class="q" data-ans="a">
+    <p>乙、顧客只會問兩種固定問題，該用什麼？</p>
+    <div class="opts"><button data-v="a">固定 workflow</button><button data-v="b">多代理系統</button><button data-v="c">自主 agent</button></div>
+    <div class="fb" data-ok="對！流程可預測就寫死，最可靠。" data-no="流程可預測時，agent 是殺雞用牛刀。"></div>
+  </div>
+  <div class="q" data-ans="c">
+    <p>丙、哪個動作在可靠度建立前最該請真人確認？</p>
+    <div class="opts"><button data-v="a">查詢訂單狀態</button><button data-v="b">搜尋知識庫</button><button data-v="c">大額退款</button></div>
+    <div class="fb" data-ok="對！不可逆、牽涉金錢的高風險動作要人工監督。" data-no="想想哪個動作做錯了收不回來。"></div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="slide" data-wiki="overview.md,index.md">
+  <h2>帶走這五件事</h2>
+  <ul>
+    <li>Agent ＝ LLM 決定下一步、用工具去做、看結果再決定。</li>
+    <li>是不是 agent 是程度問題，看 LLM 控制了多少流程。</li>
+    <li>核心是 Thought → Action → Observation 迴圈，加上結束條件。</li>
+    <li>先用最簡單的方法：流程固定用 workflow，需要彈性才用 agent。</li>
+    <li>用多層護欄和人工介入控制風險。</li>
+  </ul>
+  <h3 style="margin-top:1em">延伸閱讀（本 Wiki 的六篇來源）</h3>
+  <p style="font-size:1.1em">Hugging Face Agents Course、smolagents 概念指南、Lilian Weng〈LLM Powered Autonomous Agents〉、ReAct 論文、Anthropic〈Building Effective Agents〉、OpenAI〈A Practical Guide to Building Agents〉。完整連結見 <a href="../wiki/index.html">Wiki 索引</a>。</p>
+</section>
+
+<footer><span id="src"></span><nav class="nav" aria-label="投影片導覽"><button id="prev">上一頁</button><span id="num"></span><button id="next">下一頁</button></nav></footer>
+</main>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let cur=0;
+function wikiHref(p){return '../wiki/'+p.replace(/\.md$/,'.html')}
+function show(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>s.classList.toggle('on',k===cur));
+  const pages=slides[cur].dataset.wiki.split(',');
+  document.getElementById('src').innerHTML='Wiki 來源：'+pages.map(p=>`<a href="${wikiHref(p)}">${p.replace('concepts/','').replace('.md','')}</a>`).join('、');
+  document.getElementById('num').textContent=`${cur+1} / ${slides.length}`;
+  document.getElementById('bar').style.width=((cur+1)/slides.length*100)+'%';
+  history.replaceState(null,'','#'+(cur+1));
+}
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('next').onclick=()=>show(cur+1);
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter'))return;
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(cur+1)}
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+  if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);
+});
+// 互動迴圈（示意）
+const steps=[
+  {l:[0],k:'u',t:'任務：「我想喝咖啡」'},
+  {l:[1],k:'t',t:'Thought：要先知道廚房有沒有咖啡機'},
+  {l:[2],k:'a',t:'Action：走到廚房查看'},
+  {l:[3,4],k:'o',t:'Observation：有咖啡機，咖啡豆也在'},
+  {l:[1],k:'t',t:'Thought：可以開始煮了'},
+  {l:[2],k:'a',t:'Action：使用咖啡機'},
+  {l:[3,4],k:'o',t:'Observation：咖啡煮好了'},
+  {l:[1],k:'t',t:'Thought：把咖啡端回去就完成'},
+  {l:[2],k:'a',t:'Action：端給使用者（最終輸出）'},
+  {l:[1],k:'done',t:'llm_should_continue → False，迴圈結束'}
+];
+let si=0;
+const mem=document.getElementById('mem'),code=document.getElementById('code');
+const label={u:'task',t:'think',a:'act',o:'observe',done:'stop'};
+function step(){
+  if(si>=steps.length)return;
+  const s=steps[si++];
+  code.querySelectorAll('span').forEach(x=>x.classList.toggle('hl',s.l.includes(+x.dataset.l)));
+  if(si===1)mem.innerHTML='';
+  const d=document.createElement('div');d.className='k-'+s.k;d.innerHTML=`<b>${label[s.k]}</b>${s.t}`;mem.appendChild(d);mem.scrollTop=mem.scrollHeight;
+  if(si>=steps.length)document.getElementById('stepBtn').disabled=true;
+}
+document.getElementById('stepBtn').onclick=step;
+document.getElementById('resetBtn').onclick=()=>{si=0;mem.innerHTML='<div class="k-u"><b>memory</b>（按「執行下一步」看它怎麼長大）</div>';code.querySelectorAll('span').forEach(x=>x.classList.remove('hl'));document.getElementById('stepBtn').disabled=false};
+// 測驗
+document.querySelectorAll('.q').forEach(q=>{
+  q.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.v===q.dataset.ans,fb=q.querySelector('.fb');
+    q.querySelectorAll('.opts button').forEach(x=>x.classList.remove('right','wrong'));
+    b.classList.add(ok?'right':'wrong');fb.textContent=ok?fb.dataset.ok:fb.dataset.no;
+  });
+});
+show((parseInt(location.hash.slice(1))||1)-1);
+</script>
+</body>
+</html>

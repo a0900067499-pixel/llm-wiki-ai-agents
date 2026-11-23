@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>挑戰與限制 — AI Agents LLM Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+:root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff}header div{max-width:58rem;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+header a{color:var(--ink);text-decoration:none;font-weight:500}header a:hover{color:var(--think)}
+main{max-width:58rem;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+h1,h2,h3{font-family:"LXGW WenKai TC","Kaiti TC",serif;line-height:1.3}h1{font-size:2.2rem;margin:.4rem 0 1rem}h2{margin-top:2.2rem}
+a{color:var(--think)}p,li{max-width:46rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;background:#fff;font-size:.95rem}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:#F6F8F9}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.9em;background:#fff;padding:.05em .3em}
+pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:auto}pre code{padding:0}
+.meta{font-size:.88rem;color:var(--muted);background:#fff;border:1px solid var(--line);padding:.5rem .8rem;margin-bottom:1rem}
+.meta b{color:var(--ink);font-weight:500}
+.src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
+.path{font-size:.85rem;color:var(--muted)}
+</style></head><body><header><div><a href="../../index.html">首頁</a><a href="../../slides/index.html">教學簡報</a><a href="../../wiki/index.html">Wiki 索引</a><a href="../../docs/process.html">流程與反思</a><a href="../../CLAUDE.html">規則檔</a><a href="../../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/concepts/challenges.md　<a href="challenges.md">看 Markdown 原檔</a></p><h1>挑戰與限制</h1><div class="meta"><b>title</b>：挑戰與限制　<b>sources</b>：[S3, S5]　<b>updated</b>：2026-11-23</div>
+<ul>
+<li><strong>有限的 context 長度</strong>：歷史、指令、API 說明都要塞進去；向量檢索有幫助，但不如完整注意力。<span class="src">[S3]</span></li>
+<li><strong>長期規劃困難</strong>：長任務中遇到意外錯誤時很難調整，不如人從錯誤中學習那麼穩健。<span class="src">[S3]</span></li>
+<li><strong>自然語言介面不可靠</strong>：模型可能輸出格式錯誤或不照指示，所以 agent 程式碼很多在處理解析。<span class="src">[S3]</span></li>
+<li><strong>錯誤會累積</strong>：自主 agent 每一步的小錯會一路放大，成本也較高。<span class="src">[S5]</span></li>
+<li><strong>LLM 不一定能評估自己</strong>：ChemCrow 案例中，LLM 評審認為它和 GPT-4 差不多，但化學專家明顯偏好 ChemCrow。<span class="src">[S3]</span></li>
+<li><strong>工具設計比提示詞更重要</strong>：Anthropic 做程式 agent 時花在優化工具的時間比提示詞多；強制使用絕對路徑就消除了 agent 切換目錄後的錯誤。<span class="src">[S5]</span></li>
+</ul>
+<h2>設計原則（對應的解法）</h2>
+<ul>
+<li>保持簡單、讓規劃步驟透明可見、仔細設計 agent 與電腦之間的介面（ACI：工具文件與測試）。<span class="src">[S5]</span></li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="guardrails-and-human.html">護欄與人工介入</a>、<a href="agent-loop-react.html">Agent Loop 與 ReAct</a></li>
+</ul></main></body></html>
