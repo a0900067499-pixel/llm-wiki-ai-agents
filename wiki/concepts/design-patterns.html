@@ -18,9 +18,14 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 .path{font-size:.85rem;color:var(--muted)}
 </style></head><body><header><div><a href="../../index.html">首頁</a><a href="../../slides/index.html">教學簡報</a><a href="../../wiki/index.html">Wiki 索引</a><a href="../../docs/process.html">流程與反思</a><a href="../../CLAUDE.html">規則檔</a><a href="../../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/concepts/design-patterns.md　<a href="design-patterns.md">看 Markdown 原檔</a></p><h1>五種設計模式（從簡單到複雜）</h1><div class="meta"><b>title</b>：五種設計模式與多代理　<b>sources</b>：[S5, S6]　<b>updated</b>：2026-11-23</div>
 <ul>
-<li><strong>1. Prompt chaining（串接）</strong>：把任務拆成固定的連續步驟，每一步吃上一步的輸出，中間可加程式檢查關卡（gate）。例：寫大綱 → 檢查大綱 → 寫全文。<span class="src">[S5]</span></li>
-<li><strong>2. Routing（分流）</strong>：先分類輸入，再送到專門的處理流程。例：客服問題分成一般問題、退款、技術支援；簡單問題給小模型、難題給強模型。<span class="src">[S5]</span></li>
-<li><strong>3. Parallelization（平行）</strong>：分段（獨立子任務同時跑，例：一個模型審查輸入是否不當、另一個回答）或投票（同一任務跑多次，例：多個 prompt 檢查程式漏洞）。<span class="src">[S5]</span></li>
+<li>
+<p>這五種在 Anthropic 原文中都屬於 <strong>workflow</strong>（流程由程式事先寫好），agent 另外獨立說明。<span class="src">[S5]</span></p>
+</li>
+<li>
+<p><strong>1. Prompt chaining（步驟串接）</strong>：把任務拆成固定的連續步驟，每一步吃上一步的輸出，中間可加程式檢查關卡（gate）。例：寫大綱 → 檢查大綱 → 寫全文。<span class="src">[S5]</span></p>
+</li>
+<li><strong>2. Routing（分流路由）</strong>：先分類輸入，再送到專門的處理流程。例：客服問題分成一般問題、退款、技術支援；簡單問題給小模型、難題給強模型。<span class="src">[S5]</span></li>
+<li><strong>3. Parallelization（平行處理）</strong>：分段（獨立子任務同時跑，例：一個模型審查輸入是否不當、另一個回答）或投票（同一任務跑多次，例：多個 prompt 檢查程式漏洞）。<span class="src">[S5]</span></li>
 <li><strong>4. Orchestrator-workers（指揮者與工人）</strong>：中央 LLM 在執行時動態拆解任務、分派給工人、再彙整；和平行模式的差別是子任務事先不固定。例：一次要改很多檔案的程式修改。<span class="src">[S5]</span></li>
 <li><strong>5. Evaluator-optimizer（評估者與優化者）</strong>：一個 LLM 產生、另一個評估並給回饋，反覆迭代；適合有明確評估標準時。例：文學翻譯、多輪搜尋。<span class="src">[S5]</span></li>
 </ul>

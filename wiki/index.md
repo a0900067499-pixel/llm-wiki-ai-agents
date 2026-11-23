@@ -16,6 +16,7 @@ updated: 2026-11-23
 7. [何時該用 Agent](concepts/when-to-use-agents.md)
 8. [護欄與人工介入](concepts/guardrails-and-human.md)
 9. [挑戰與限制](concepts/challenges.md)
+10. [術語小辭典](concepts/glossary.md)
 
 ## 來源頁
 - [S1：What is an Agent?（Hugging Face Agents Course）](sources/S1.md)

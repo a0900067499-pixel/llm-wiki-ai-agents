@@ -32,4 +32,10 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 <li>Three core principles: simplicity; transparency (show planning steps); carefully crafted agent-computer interface (ACI) via tool documentation and testing.</li>
 <li>Appendix: customer support and coding agents (verifiable with automated tests; human review still essential).</li>
 <li>Tool tips: write tool descriptions like a docstring for a junior developer; test many inputs; poka-yoke tools. Example: requiring absolute file paths removed errors after the agent changed directories; more time spent optimizing tools than the prompt.</li>
+</ul>
+<h2>補充擷取（2026-11-23，簡報檢視後的缺口迴圈）</h2>
+<ul>
+<li>The five patterns each have a heading beginning with "Workflow:" (Workflow: Prompt chaining / Routing / Parallelization / Orchestrator-workers / Evaluator-optimizer); "Agents" is a separate section.</li>
+<li>Poka-yoke your tools: change tool arguments so mistakes are harder to make; the model made mistakes with relative filepaths, so absolute filepaths were required and then used without error.</li>
+<li>Testing: carry out extensive testing in sandboxed environments, along with appropriate guardrails (in the context of autonomous agents).</li>
 </ul></main></body></html>

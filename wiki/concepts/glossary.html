@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>術語小辭典 — AI Agents LLM Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
+<style>
+:root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+header{border-bottom:1px solid var(--line);background:#fff}header div{max-width:58rem;margin:0 auto;padding:.7rem 1.5rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+header a{color:var(--ink);text-decoration:none;font-weight:500}header a:hover{color:var(--think)}
+main{max-width:58rem;margin:0 auto;padding:1.5rem 1.5rem 4rem}
+h1,h2,h3{font-family:"LXGW WenKai TC","Kaiti TC",serif;line-height:1.3}h1{font-size:2.2rem;margin:.4rem 0 1rem}h2{margin-top:2.2rem}
+a{color:var(--think)}p,li{max-width:46rem}
+table{border-collapse:collapse;width:100%;margin:1rem 0;background:#fff;font-size:.95rem}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:#F6F8F9}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.9em;background:#fff;padding:.05em .3em}
+pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:auto}pre code{padding:0}
+.meta{font-size:.88rem;color:var(--muted);background:#fff;border:1px solid var(--line);padding:.5rem .8rem;margin-bottom:1rem}
+.meta b{color:var(--ink);font-weight:500}
+.src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
+.path{font-size:.85rem;color:var(--muted)}
+</style></head><body><header><div><a href="../../index.html">首頁</a><a href="../../slides/index.html">教學簡報</a><a href="../../wiki/index.html">Wiki 索引</a><a href="../../docs/process.html">流程與反思</a><a href="../../CLAUDE.html">規則檔</a><a href="../../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/concepts/glossary.md　<a href="glossary.md">看 Markdown 原檔</a></p><h1>術語小辭典</h1><div class="meta"><b>title</b>：術語小辭典　<b>sources</b>：[S1, S3, S5, S6]　<b>updated</b>：2026-11-23</div>
+<p>給第一次接觸的人：每個詞都附一句白話。出自來源的寫來源編號；一般性的名詞解釋標 <code>[通用定義]</code>。</p>
+<h2>術語</h2>
+<ul>
+<li><strong>LLM（大型語言模型）</strong>：輸入文字、輸出文字的 AI 模型，例如 GPT-4、Llama、Gemini；在 agent 裡扮演「大腦」。<span class="src">[S1]</span></li>
+<li><strong>工具（tool）</strong>：讓 LLM 能「做事」的外部功能，例如寄信、生圖；LLM 本身只能產生文字。<span class="src">[S1]</span></li>
+<li><strong>context window（短期記憶）</strong>：模型當下能同時讀進來的內容量，有長度上限。<span class="src">[S3]</span></li>
+<li><strong>向量資料庫（長期記憶）</strong>：外接的資料庫，像筆記本，需要時再去查。<span class="src">[S3]</span></li>
+<li><strong>越獄（jailbreak）</strong>：用話術誘導 AI 違反原本的規則。[通用定義]</li>
+<li><strong>提示詞注入（prompt injection）</strong>：把惡意指令藏在輸入內容裡，讓 AI 誤以為是要照做的命令。[通用定義]</li>
+<li><strong>沙盒（sandbox）</strong>：和真實系統隔離的測試環境，做錯了也不會影響真實資料。[通用定義]</li>
+<li><strong>防呆（poka-yoke）</strong>：把工具的參數設計成不容易用錯，例如要求給完整的檔案路徑，而不是相對位置。<span class="src">[S5]</span></li>
+<li><strong>護欄（guardrails）</strong>：限制 agent 行為的多層防護，例如擋離題問題、過濾個資。<span class="src">[S6]</span></li>
+</ul>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="agent-components.html">Agent 的組成元件</a>、<a href="guardrails-and-human.html">護欄與人工介入</a>、<a href="challenges.html">挑戰與限制</a></li>
+</ul></main></body></html>

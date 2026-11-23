@@ -20,7 +20,7 @@ updated: 2026-11-23
 
 ## ⚠ 矛盾與註記
 - HF 課程的表格把 Multi-step agent 標為 ★★★，並註明表格取自 smolagents；但 smolagents 原文標 ★★☆。[綜合: S1,S2]
-- 處理：以原始出處 S2 為準，保留本註記（2026-11-23 經使用者同意）。[綜合: S1,S2]
+- 處理：以原始出處 S2 為準，保留本註記（討論後決定）。[綜合: S1,S2]
 
 ## 相關頁面
 - [什麼是 AI Agent](what-is-an-agent.md)、[Workflow vs Agent](workflow-vs-agent.md)

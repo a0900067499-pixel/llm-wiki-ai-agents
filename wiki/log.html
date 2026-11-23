@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>log.md（只能追加，不可改寫） — AI Agents LLM Wiki</title>
+<title>log.md（討論與變更紀錄，依時間順序） — AI Agents LLM Wiki</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&family=Noto+Sans+TC:wght@400;500&display=swap">
 <style>
 :root{--paper:#EEF2F4;--ink:#1C2B3A;--muted:#5E6E7D;--line:#C9D3DA;--think:#4A4DB8;--act:#C27C0E;--obs:#0E7A70}
@@ -16,51 +16,75 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 .meta b{color:var(--ink);font-weight:500}
 .src{color:var(--obs);font-size:.85em;font-weight:500;white-space:nowrap}
 .path{font-size:.85rem;color:var(--muted)}
-</style></head><body><header><div><a href="../index.html">首頁</a><a href="../slides/index.html">教學簡報</a><a href="../wiki/index.html">Wiki 索引</a><a href="../docs/process.html">流程與反思</a><a href="../CLAUDE.html">規則檔</a><a href="../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/log.md　<a href="log.md">看 Markdown 原檔</a></p><h1>log.md（只能追加，不可改寫）</h1><div class="meta"><b>title</b>：變更紀錄　<b>updated</b>：2026-11-23</div>
-<h2>2026-11-23 09:27 — 討論：決定範圍</h2>
+</style></head><body><header><div><a href="../index.html">首頁</a><a href="../slides/index.html">教學簡報</a><a href="../wiki/index.html">Wiki 索引</a><a href="../docs/process.html">流程與反思</a><a href="../CLAUDE.html">規則檔</a><a href="../pipeline/reports/index.html">檢查報告</a></div></header><main><p class="path">wiki/log.md　<a href="log.md">看 Markdown 原檔</a></p><h1>log.md（討論與變更紀錄，依時間順序）</h1><div class="meta"><b>title</b>：變更紀錄　<b>updated</b>：2026-11-23</div>
+<h2>第一輪討論：建 Wiki 之前（先討論、後生成）</h2>
 <ul>
-<li>使用者選擇：主題 <strong>AI Agents</strong>；資料由 Claude 上網找 5–6 篇；「先討論」採<strong>整批討論一次</strong>；發布到 GitHub Pages。</li>
-<li>Claude 搜尋並以 WebFetch 讀取 6 篇候選（S1–S6），全部可讀。</li>
+<li>主題定為 <strong>AI Agents</strong>。請 LLM 上網找 5–6 篇候選資料，讀取後確認 6 篇都能讀到（S1–S6）。</li>
+<li>我請 LLM 先把每篇的重點、預計的 Wiki 結構、簡報大綱整批列出來，我看過再決定，不要直接生成。</li>
+<li>討論中發現 2 個問題：</li>
+<li>① S1（HF 課程）的代理程度表把 multi-step agent 標成 ★★★，它說表格取自 S2，但 S2（smolagents）原文是 ★★☆。</li>
+<li>② S5（Anthropic）頁面註明 2024 年後很多工具已經改變。</li>
+<li>我的決定：① 以原始出處 S2 為準，並在頁面保留註記；② S5 只採概念和模式，不寫具體工具名稱。</li>
+<li>6 篇資料都保留；簡報觀眾設定為「有一點程式基礎的初學者」。</li>
 </ul>
-<h2>2026-11-23 09:30 — 討論：提出重點、矛盾、結構</h2>
+<h2>ingest S1–S6</h2>
 <ul>
-<li>Claude 把每篇重點、預計 wiki 結構、簡報大綱給使用者確認。</li>
-<li>提出 2 個問題：①S1 的代理程度表標 multi-step agent 為 ★★★，S1 說表格取自 S2，但 S2 原文是 ★★☆；②S5 頁面註明工具已改變。</li>
-<li>建議：①以原始出處 S2 為準並在頁面註記；②S5 只採概念不寫工具名稱。</li>
-</ul>
-<h2>2026-11-23 09:34 — 討論：使用者確認</h2>
-<ul>
-<li>使用者回覆：6 篇與兩個矛盾處理方式「<strong>都同意</strong>」；簡報觀眾為「<strong>有一點程式基礎</strong>」。</li>
-<li>GitHub：repo <code>a0900067499-pixel/llm-wiki-ai-agents</code> 已建，但 Claude 沒有推送權限 → 使用者選「給 zip 自己上傳」。</li>
-</ul>
-<h2>2026-11-23 — ingest S1–S6</h2>
-<ul>
-<li>寫入 raw/S1–S6（擷取筆記，之後不可修改）。</li>
+<li>寫入 raw/S1–S6（擷取筆記）。</li>
 <li>建立概念頁 9 頁、來源頁 6 頁、overview、index。</li>
-<li>下一步：執行 lint。</li>
 </ul>
-<h2>2026-11-23 — lint 第 1 次（pipeline/reports/lint_run1.txt）</h2>
+<h2>lint 第 1 次（pipeline/reports/lint_run1.txt）</h2>
 <ul>
 <li>結果：18 頁、111 條事實，1 個錯誤。</li>
-<li>L6：<code>agency-spectrum.md</code>（代理程度光譜）有矛盾小節，但 log 只描述了矛盾、沒寫是哪一頁 → 追蹤不到。</li>
-<li>修正：在此補記，矛盾 ① 記錄於 <a href="concepts/agency-spectrum.html">代理程度光譜</a>；矛盾 ② 記錄於 <a href="sources/S5.html">S5 來源頁</a>。</li>
-<li>另外先拿 4 個故意植入的錯誤（假數字、缺來源、來源不符、壞連結）測 lint，4 個都抓到 → 確認檢查器有效。</li>
+<li>L6：<code>agency-spectrum.md</code>（代理程度光譜）有矛盾小節，但 log 只描述了矛盾、沒寫是哪一頁，追蹤不到。</li>
+<li>修正：矛盾 ① 記錄於 <a href="concepts/agency-spectrum.html">代理程度光譜</a>；矛盾 ② 記錄於 <a href="sources/S5.html">S5 來源頁</a>。</li>
+<li>另外先用 4 個故意植入的錯誤（假數字、缺來源、來源不符、壞連結）測試 lint，4 個都抓到，確認檢查器有效。</li>
 </ul>
-<h2>2026-11-23 — query：產生簡報大綱（slides/outline.md）</h2>
+<h2>query：產生簡報大綱（slides/outline.md）</h2>
 <ul>
-<li>只讀 wiki/，產生 17 張投影片大綱，每張標註對應 wiki 頁。</li>
-<li>大綱檢查第 1 次：0 錯誤（9 個概念頁都有被用到；有學習目標、測驗、回顧）。</li>
+<li>只讀 wiki/，產生 17 張投影片大綱，每張標註對應的 wiki 頁。</li>
+<li>大綱檢查第 1 次：0 錯誤。</li>
 </ul>
-<h2>2026-11-23 — 生成簡報與檢查</h2>
+<h2>生成簡報與檢查</h2>
 <ul>
-<li>簡報檢查第 1 次：<strong>19 個錯誤</strong>。其中 18 個是「借用沒宣告的頁」（第 2、9、17 張用了別頁內容，但沒列在對應頁）；1 個是<strong>捏造</strong>（測驗選項「修 bug 的程式助理」wiki 裡沒有）。</li>
-<li>修正：補齊三張的對應頁（大綱同步修改）；把測驗選項改成 wiki 有的「開工單、完成交易的客服機器人」。第 2 次：0 錯誤。</li>
-<li>視覺檢查第 1 次（臨時腳本）：17 張中 10 張超出版面，第 9 張按鈕被文字蓋住點不到 → 縮小字級與邊距、導覽移進頁尾、記憶區可捲動。</li>
+<li>簡報檢查第 1 次：<strong>19 個錯誤</strong>。18 個是「借用沒宣告的頁」（第 2、9、17 張用了別頁內容，但沒列在對應頁）；1 個是<strong>捏造</strong>（測驗選項「修 bug 的程式助理」wiki 裡沒有）。</li>
+<li>修正：補齊三張的對應頁（大綱同步修改）；測驗選項改成 wiki 有的「開工單、完成交易的客服機器人」。第 2 次：0 錯誤。</li>
+<li>視覺檢查第 1 次：17 張中 10 張超出版面，第 9 張按鈕被文字蓋住、點不到 → 縮小字級與邊距、導覽移進頁尾、記憶區可捲動。</li>
 <li>把視覺檢查正式加入 pipeline（check_visual.py），並用植入錯誤確認 V1、V2 都抓得到；第 2 次：0 錯誤。</li>
-<li>依這次的問題，在 CLAUDE.md 新增規則 4–6（把檢查往前移）。</li>
+<li>在 CLAUDE.md 新增規則 4–6（把檢查往前移）。</li>
 </ul>
-<h2>2026-11-23 — 發布前人工檢查截圖</h2>
+<h2>發布前人工檢查截圖</h2>
 <ul>
 <li>檢查器沒抓到的 2 個問題：測驗答錯的按鈕在滑鼠停留時文字看不見；第 16 張頁尾太長，擠壓翻頁按鈕。</li>
-<li>修正後重跑內容檢查與視覺檢查：0 錯。結論：發布前仍保留一次人工看截圖。</li>
+<li>修正後重跑內容檢查與視覺檢查：0 錯誤。結論：發布前仍保留一次人工看截圖。</li>
+</ul>
+<h2>第二輪討論：檢視簡報初稿（以「不熟悉 AI Agents 的人能不能看懂」為標準）</h2>
+<ul>
+<li>我看完初稿的判斷：比喻很親民（Alfred、衝浪旅行社、核對清單 vs. 資深調查員），但<strong>術語門檻忽高忽低</strong>，而且<strong>一次塞入太多套理論框架</strong>。</li>
+<li>新手最容易卡關的 5 張：</li>
+<li>第 1 張：開場就寫 LLM，沒有先解釋名詞。</li>
+<li>第 5 張：一張塞進 Chain of Thought、context window、向量資料庫、檢索、API、抽參數 6 個術語。</li>
+<li>第 8 張：ALFWorld、WebShop、模仿學習、強化學習一次出現，新手不需要知道 benchmark 名字。</li>
+<li>第 14 張：越獄、提示詞注入、正規表示式、沙盒沒有解釋。</li>
+<li>第 15 張：ChemCrow 和「強制使用絕對路徑」缺乏背景。</li>
+<li>結構調整：</li>
+<li>第 5–6 張只留<strong>一套</strong>構造（大腦＋規劃、記憶、工具、規範），各家的叫法縮成一句小註解。</li>
+<li>順序改成 Workflow vs Agent → 何時該用 agent → 五種設計模式 → 何時拆成多 agent；五種模式標明「都屬於 workflow」，並加上中文名稱。</li>
+<li>第 9 張的程式只有 action、沒有 Thought，和第 8 張教的 Thought → Action → Observation 對不起來。</li>
+<li>決定怎麼兼顧「只用 Wiki 當來源」：</li>
+<li>白話解釋要先補進 Wiki，再改簡報：新增 <a href="concepts/glossary.html">術語小辭典</a>。一般性的名詞解釋（越獄、提示詞注入、沙盒）標 <code>[通用定義]</code>，只能用在這一頁。</li>
+<li>第 9 張的程式出自 smolagents 原文，<strong>原文不動</strong>，改成加一行註解說明 Thought 發生在哪一步，並在 Wiki 註明是補充說明。</li>
+<li>第 8 張原本想改成「模擬家務與網購任務」，但回查 Google 的 ReAct 文章，它把 ALFWorld 描述為文字遊戲、WebShop 描述為網頁操作，沒有說是家務和網購 → <strong>以原始資料為準</strong>，寫成「文字遊戲、網頁操作」。</li>
+<li>五種模式「都屬於 workflow」回查 Anthropic 原文確認：每種模式的標題都以「Workflow:」開頭。</li>
+</ul>
+<h2>缺口迴圈：補 Wiki（N8a → N3）</h2>
+<ul>
+<li>raw/S4、raw/S5 檔尾追加「補充擷取」（原內容不改）。</li>
+<li>新增術語小辭典；更新 overview（LLM 白話定義）、agent-loop-react（ALFWorld、WebShop 是什麼、Thought 註解說明）、design-patterns（屬於 workflow、中文名稱）、challenges（ChemCrow 是什麼、防呆）。</li>
+<li>lint 加入 L7（[通用定義] 只能用在術語小辭典），用植入錯誤測試有效。lint 第 5 次：19 頁、124 條事實，0 錯誤。</li>
+</ul>
+<h2>第二輪修改簡報與檢查</h2>
+<ul>
+<li>把這次討論的問題變成檢查：check_slides.py 新增 <strong>C6</strong>（術語小辭典裡的術語第一次出現時，要有括號白話說明）。拿<strong>修改前</strong>的簡報跑一次：7 個錯誤（第 1、2、5、14 張），和討論中找到的問題吻合；第 8、15 張的專有名詞不在術語小辭典，C6 抓不到，改用人工處理。</li>
+<li>依討論修改第 1、2、5、6、8、9、12、14、15 張並調整順序後：逐張檢查時發現 C6 的逐張模式不會記得前面已解釋過的術語（檢查器本身的 bug）→ 修正；全份檢查剩 1 個錯誤（第 15 張「防呆」沒有括號說明）→ 修正。</li>
+<li>視覺檢查：第 12 張加了中文名稱後超出版面 → 把中文名稱改成同一行；重跑 0 錯誤。</li>
 </ul></main></body></html>

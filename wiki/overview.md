@@ -5,6 +5,7 @@ updated: 2026-11-23
 ---
 # 總覽：AI Agents 是什麼？
 
+- LLM（大型語言模型）是輸入文字、輸出文字的 AI 模型，例如 GPT-4；在 agent 裡當作大腦。→ [術語小辭典](concepts/glossary.md) [S1]
 - AI agent 是讓 LLM 不只「回答」，而是「決定下一步做什麼、用工具去做、看結果再決定」的系統。[綜合: S1,S2,S6]
 - 是不是 agent 是程度問題：LLM 控制的流程越多，代理程度越高。→ [代理程度光譜](concepts/agency-spectrum.md) [S2]
 - 組成：會推理的模型＋規劃＋記憶＋工具＋指令／護欄。→ [組成元件](concepts/agent-components.md) [綜合: S3,S5,S6]
