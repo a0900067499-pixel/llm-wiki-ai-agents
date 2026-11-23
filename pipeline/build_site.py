@@ -20,7 +20,7 @@ pre{background:#fff;border-left:4px solid var(--think);padding:1rem;overflow:aut
 .path{font-size:.85rem;color:var(--muted)}
 """
 NAV = [("首頁", "index.html"), ("教學簡報", "slides/index.html"), ("Wiki 索引", "wiki/index.html"),
-       ("流程與反思", "docs/process.html"), ("規則檔", "CLAUDE.html"), ("檢查報告", "pipeline/reports/index.html")]
+       ("流程說明", "docs/process.html"), ("規則檔", "CLAUDE.html"), ("檢查報告", "pipeline/reports/index.html")]
 
 
 def page(title, body, rel_root, path):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """視覺檢查（graph 節點 N8b）：用無頭 Chrome 開簡報，逐張截圖並偵測內容是否超出版面、壓到頁尾。
-本節點是第一次實際執行後新增的（見 docs/process.md 反思）。
+本節點是第一次實際執行後新增的（見 wiki/log.md）。
 用法：python3 pipeline/check_visual.py [報告路徑]
 """
 import asyncio, sys, pathlib
